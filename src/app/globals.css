@@ -51,6 +51,12 @@
   --priority-high: #fbbf24;
   --priority-urgent: #ff3b30;
 
+  /* Cardboard priority boxes (hero) */
+  --cardboard-face: linear-gradient(155deg, #2a2018 0%, #1c1712 100%);
+  --cardboard-edge: rgba(255, 138, 61, 0.35);
+  --cardboard-flap: #241b14;
+  --cardboard-label: #f5ead9;
+
   /* Shadows & Radius */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
   --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.45);
@@ -106,6 +112,12 @@
   --accent-gradient: linear-gradient(135deg, #eb5a22 0%, #b23a0f 100%);
   --growth-gradient: linear-gradient(135deg, #ff8a3d 0%, #ffe3d1 100%);
 
+  /* Cardboard priority boxes (hero) */
+  --cardboard-face: linear-gradient(155deg, #e8d9c3 0%, #dcc7a6 100%);
+  --cardboard-edge: rgba(230, 81, 26, 0.3);
+  --cardboard-flap: #e2d0b5;
+  --cardboard-label: #2a1c10;
+
   --shadow-sm: 0 2px 6px rgba(20, 14, 10, 0.04);
   --shadow-md: 0 8px 20px rgba(20, 14, 10, 0.06);
   --shadow-lg: 0 16px 40px rgba(20, 14, 10, 0.09);
@@ -121,6 +133,8 @@
 
 html, body {
   min-height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   font-family: var(--font-family);
   background-color: var(--bg-app);
   color: var(--text-main);
@@ -540,5 +554,300 @@ input:focus, textarea:focus, select:focus {
   }
   .show-mobile-flex {
     display: flex !important;
+  }
+}
+
+/* Hero Priority Scene — drag tasks into cardboard priority boxes */
+.priority-scene-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  perspective: 1400px;
+  user-select: none;
+}
+
+.priority-stage {
+  /* transform-style: preserve-3d is deliberately omitted here — it breaks native
+     pointer hit-testing for absolutely-positioned children in Chromium (confirmed
+     via elementFromPoint), even though rendering and getBoundingClientRect stay
+     correct. `perspective` on the wrapper still projects each transformed child
+     (boxes, task blocks) individually without it. */
+  position: relative;
+  min-height: 480px;
+}
+
+.priority-boxes-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 8px;
+  display: flex;
+  gap: 20px;
+  z-index: 2;
+}
+
+.priority-box {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  padding: 22px 16px 20px 16px;
+  border-radius: 18px 18px 10px 10px;
+  background: var(--cardboard-face);
+  border: 2px solid var(--cardboard-edge);
+  box-shadow: var(--shadow-lg), inset 0 2px 0 rgba(255, 255, 255, 0.06);
+  transform: rotateX(-6deg) translateZ(10px);
+  transform-origin: bottom center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align: center;
+  overflow: hidden;
+}
+
+.priority-box::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 8%;
+  right: 8%;
+  height: 16px;
+  background: var(--cardboard-flap);
+  border-radius: 8px 8px 0 0;
+  border: 2px solid var(--cardboard-edge);
+  border-bottom: none;
+}
+
+.priority-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 2px, transparent 2px, transparent 7px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.priority-box-content {
+  position: relative;
+  z-index: 1;
+}
+
+.priority-box-active {
+  box-shadow: var(--shadow-lg), var(--primary-glow);
+  border-color: var(--primary);
+}
+
+.priority-box-active.priority-intensity-high {
+  transform: rotateX(-6deg) translateZ(10px) scale(1.06) translateY(-10px);
+}
+
+.priority-box-active.priority-intensity-medium {
+  transform: rotateX(-6deg) translateZ(10px) scale(1.04);
+}
+
+.priority-box-active.priority-intensity-low {
+  transform: rotateX(-6deg) translateZ(10px) scale(1.025);
+}
+
+.priority-box-bounce {
+  animation: priorityBoxBounce 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes priorityBoxBounce {
+  0% { transform: rotateX(-6deg) translateZ(10px) scale(1); }
+  35% { transform: rotateX(-6deg) translateZ(10px) scale(1.14) translateY(-12px); }
+  70% { transform: rotateX(-6deg) translateZ(10px) scale(0.96); }
+  100% { transform: rotateX(-6deg) translateZ(10px) scale(1); }
+}
+
+.priority-box-label {
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: var(--cardboard-label);
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.priority-box-count {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--cardboard-label);
+  opacity: 0.72;
+  font-weight: 600;
+}
+
+.priority-box-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.priority-task {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: grab;
+  touch-action: none;
+  will-change: transform;
+  user-select: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-main);
+  z-index: 3;
+  opacity: 0;
+  white-space: nowrap;
+}
+
+.priority-task.priority-task-entered {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.priority-task:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.priority-task-grabbed {
+  cursor: grabbing;
+  box-shadow: var(--shadow-lg), var(--primary-glow-soft);
+  border-color: var(--border-hover);
+}
+
+.priority-task-settling {
+  transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+}
+
+.priority-task-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-subtle);
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.priority-task-category {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.priority-ghost-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--primary-glow);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.priority-toast {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 20;
+  animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.priority-hint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.priority-select-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .priority-task,
+  .priority-box,
+  .priority-ghost-cursor {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .priority-stage {
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 640px) {
+  .priority-scene-wrapper {
+    perspective: none;
+  }
+  .priority-stage {
+    min-height: 200px;
+    margin-bottom: 190px;
+  }
+  .priority-boxes-row {
+    position: absolute;
+    top: 100%;
+    bottom: auto;
+    margin-top: 16px;
+  }
+  .priority-box {
+    padding: 16px 10px 14px 10px;
+  }
+  .priority-box-label {
+    font-size: 0.68rem;
   }
 }

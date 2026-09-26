@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { ThemeMode } from '@/types/task';
 import { TaskitLogo } from './TaskitLogo';
-import { HeroDashboardVisual } from './HeroDashboardVisual';
+import { HeroPriorityScene } from './HeroPriorityScene';
 
 interface LandingPageProps {
   theme: ThemeMode;
@@ -100,7 +100,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </button>
 
             <button
-              className="btn btn-ghost"
+              className="btn btn-ghost hide-mobile"
               onClick={() => onOpenAuth('login')}
             >
               Login
@@ -157,7 +157,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             }}
           >
             <Sparkles size={14} />
-            <span>Next-Generation Productivity Platform</span>
+            <span style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Your Productivity, Your Way
+            </span>
           </div>
 
           <h1
@@ -182,7 +184,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               margin: '0 auto 36px auto',
             }}
           >
-            Plan your day, organize your priorities, and stay focused on what actually matters.
+            Organize your workload, set priorities, and take control of your day.
           </p>
 
           <div
@@ -222,7 +224,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             zIndex: 1,
           }}
         >
-          <HeroDashboardVisual onEnterApp={onEnterDashboard} />
+          <HeroPriorityScene />
         </div>
       </section>
 
