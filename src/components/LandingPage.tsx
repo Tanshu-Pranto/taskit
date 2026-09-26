@@ -224,7 +224,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             zIndex: 1,
           }}
         >
-          <HeroPriorityScene />
+          <HeroPriorityScene onOpenAuth={onOpenAuth} />
         </div>
       </section>
 

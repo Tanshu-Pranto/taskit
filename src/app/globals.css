@@ -851,3 +851,49 @@ input:focus, textarea:focus, select:focus {
     font-size: 0.68rem;
   }
 }
+
+/* Paper stack hero — a physical task-writing surface rather than a form. */
+.paper-priority-scene { position: relative; width: 100%; max-width: 1080px; margin: 0 auto; user-select: none; }
+.paper-stage { position: relative; min-height: 590px; perspective: 1500px; }
+.paper-counter { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); z-index: 10; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; background: rgba(18,18,18,.68); backdrop-filter: blur(12px); padding: 6px 13px; color: #e9dfd3; font-size: .73rem; font-weight: 750; letter-spacing: .04em; white-space: nowrap; }
+.paper-stack { position: absolute; width: min(420px, 62vw); height: 274px; left: 50%; top: 48px; transform: translateX(-50%); }
+.paper-card { position: absolute; inset: 0; border-radius: 5px 7px 9px 6px; background-color: #f5f0e5; background-image: repeating-linear-gradient(to bottom, transparent 0 35px, rgba(102, 123, 142, .18) 36px, transparent 37px), radial-gradient(rgba(80, 59, 36, .09) .55px, transparent .75px); background-size: auto, 5px 5px; border: 1px solid #dfd4c0; box-shadow: 0 18px 30px rgba(0,0,0,.44), inset 0 0 20px rgba(138,111,76,.06); }
+.paper-card::after { content: ''; position: absolute; top: 0; bottom: 0; left: 37px; width: 1px; background: rgba(211, 93, 77, .20); pointer-events: none; }
+.paper-card-back { transform: translate(var(--paper-x), var(--paper-y)) rotate(var(--paper-rotate)); }
+.paper-card-active { z-index: 8; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 36px 48px 27px; transition: transform .24s cubic-bezier(.22,1,.36,1), opacity .28s ease, box-shadow .24s ease; touch-action: none; cursor: default; }
+.paper-card-active:hover { transform: translateY(-4px) rotate(-.4deg); box-shadow: 0 26px 38px rgba(0,0,0,.52), inset 0 0 20px rgba(138,111,76,.06); }
+.paper-card-active.paper-card-ready { cursor: grab; }
+.paper-card-ready .paper-grip { opacity: .74; }
+.paper-card-grabbed { cursor: grabbing !important; z-index: 20; box-shadow: 0 34px 52px rgba(0,0,0,.64), 0 0 0 1px rgba(255,255,255,.35), inset 0 0 20px rgba(138,111,76,.06); }
+.paper-card-returning { transition: transform .24s cubic-bezier(.22,1,.36,1) !important; }
+.paper-card-dropping { transition: transform .55s cubic-bezier(.2,.8,.25,1), opacity .55s ease !important; pointer-events: none; }
+.paper-clip { position: absolute; top: -18px; left: 50%; width: 23px; height: 61px; border: 3px solid #b96f52; border-radius: 15px; transform: translateX(-50%) rotate(-42deg); box-shadow: 1px 1px 1px rgba(0,0,0,.2); }
+.paper-grip { position: absolute; top: 11px; right: 14px; color: #756b5b; opacity: 0; transition: opacity .2s ease; }
+.paper-card textarea { position: relative; z-index: 1; width: 100%; border: 0; outline: 0; resize: none; overflow: hidden; background: transparent; color: #211b16; text-align: center; font-family: var(--font-family); font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 800; line-height: 1.32; letter-spacing: -.035em; text-transform: uppercase; caret-color: #e6511a; user-select: text; }
+.paper-card textarea::placeholder { color: #28221c; opacity: 1; }
+.paper-card-footer { position: absolute; bottom: 14px; z-index: 1; color: #786d5e; font-size: .67rem; letter-spacing: .045em; font-weight: 650; }
+.paper-boxes { position: absolute; bottom: 28px; left: 0; right: 0; display: flex; align-items: flex-end; justify-content: center; gap: clamp(18px, 4vw, 55px); padding: 0 20px; }
+.paper-box { position: relative; width: min(270px, 27vw); height: 180px; transform-style: preserve-3d; transition: transform .25s ease, filter .25s ease; }
+.paper-box-active { transform: translateY(-12px) scale(1.045); filter: drop-shadow(0 0 13px color-mix(in srgb, var(--box-color), transparent 54%)); }
+.paper-box-flap { position: absolute; top: 0; width: 52%; height: 70px; background: #d88c48; border: 1px solid #f5ba67; z-index: 1; transform-origin: bottom; }
+.paper-box-flap-left { left: 1px; clip-path: polygon(0 0,100% 16%,78% 100%,0 72%); transform: rotate(-4deg); }
+.paper-box-flap-right { right: 1px; clip-path: polygon(0 16%,100% 0,100% 72%,22% 100%); transform: rotate(4deg); }
+.paper-box-opening { position: absolute; top: 43px; left: 12%; width: 76%; height: 47px; z-index: 2; display: grid; place-items: center; border-radius: 50%; background: #5d351f; color: #f9dfbd; box-shadow: inset 0 8px 14px rgba(0,0,0,.4); font-size: .66rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; opacity: .7; transition: opacity .2s ease, box-shadow .2s ease; }
+.paper-box-active .paper-box-opening { opacity: 1; box-shadow: inset 0 8px 14px rgba(0,0,0,.5), 0 0 16px color-mix(in srgb, var(--box-color), transparent 38%); }
+.paper-box-face { position: absolute; left: 4px; right: 4px; bottom: 0; height: 126px; z-index: 3; overflow: hidden; padding: 74px 20px 16px; background: linear-gradient(90deg,#b86e34 0 50%,#c77d3d 50%); border: 1px solid #e2a256; border-top: 0; clip-path: polygon(0 15%,50% 0,100% 15%,100% 100%,0 100%); text-align: left; box-shadow: 0 16px 19px rgba(0,0,0,.4); }
+.paper-box-label { display: inline-block; padding: 3px 7px; background: #f5e4be; color: #2b2015; font-size: .72rem; font-weight: 850; letter-spacing: .025em; text-transform: uppercase; transform: rotate(-4deg); }
+.paper-box-count { display: block; margin: 5px 0 0 5px; color: rgba(255,242,219,.75); font-size: .69rem; font-weight: 650; }
+.paper-box-dot { position: absolute; right: 22px; bottom: 25px; width: 16px; height: 16px; border-radius: 50%; background: var(--box-color); box-shadow: 0 0 11px var(--box-color); }
+.paper-box-bounce { animation: paperBoxBounce .52s cubic-bezier(.34,1.56,.64,1); }
+@keyframes paperBoxBounce { 0%,100% { transform: translateY(0) scale(1); } 45% { transform: translateY(-14px) scale(1.07); } }
+.paper-stack-refresh .paper-card-back { animation: paperFan .52s cubic-bezier(.22,1,.36,1) both; }
+@keyframes paperFan { from { transform: translate(0, 16px) rotate(0); } to { transform: translate(var(--paper-x), var(--paper-y)) rotate(var(--paper-rotate)); } }
+.paper-toast { position: absolute; top: 19px; right: max(20px, 8%); display: flex; align-items: center; gap: 6px; z-index: 30; color: #fffaf3; background: #257343; padding: 8px 13px; border-radius: 999px; box-shadow: 0 10px 22px rgba(0,0,0,.3); font-size: .75rem; font-weight: 750; animation: popIn .25s ease-out; }
+.paper-help { display: flex; min-height: 38px; align-items: center; justify-content: center; flex-wrap: wrap; gap: 11px; margin-top: 2px; color: var(--text-muted); font-size: .78rem; }
+.paper-priority-actions { display: inline-flex; gap: 6px; }
+.paper-priority-actions button { border: 1px solid var(--border-color); border-radius: 999px; background: var(--bg-subtle); color: var(--text-secondary); padding: 4px 9px; cursor: pointer; font: inherit; font-size: .69rem; font-weight: 750; text-transform: uppercase; transition: color .18s ease, border-color .18s ease, background .18s ease; }
+.paper-priority-actions button:hover, .paper-priority-actions button:focus-visible { color: var(--text-main); border-color: var(--primary); background: var(--primary-subtle); outline: none; }
+.paper-dashboard-button { display: block; margin: 10px auto 0; border: 1px solid var(--primary); border-radius: 999px; background: var(--primary); color: var(--primary-text); padding: 9px 16px; cursor: pointer; box-shadow: var(--primary-glow-soft); font: inherit; font-size: .8rem; font-weight: 750; transition: transform .18s ease, background .18s ease; }
+.paper-dashboard-button:hover, .paper-dashboard-button:focus-visible { transform: translateY(-2px); background: var(--primary-hover); outline: 2px solid var(--primary); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .paper-card-active, .paper-box, .paper-card-dropping, .paper-card-back { transition-duration: .01ms !important; animation: none !important; } .paper-card-active:hover { transform: none; } }
+@media (max-width: 640px) { .paper-stage { min-height: 540px; } .paper-stack { width: min(370px, 86vw); top: 44px; } .paper-card-active { padding-inline: 38px; } .paper-boxes { bottom: 38px; gap: 7px; padding-inline: 6px; } .paper-box { width: 31vw; height: 147px; } .paper-box-flap { height: 55px; } .paper-box-opening { top: 34px; height: 38px; font-size: .55rem; } .paper-box-face { height: 104px; padding: 59px 8px 10px; } .paper-box-label { font-size: .56rem; padding: 3px 4px; } .paper-box-count { font-size: .58rem; } .paper-box-dot { right: 11px; bottom: 16px; width: 12px; height: 12px; } .paper-toast { right: 12px; top: 7px; } }
