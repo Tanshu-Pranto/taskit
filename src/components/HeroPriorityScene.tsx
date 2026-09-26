@@ -83,21 +83,31 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
         {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`} style={{ '--box-color': priority.color } as React.CSSProperties}>
           <svg className="paper-box-illustration" viewBox="0 0 300 230" aria-hidden="true">
             <defs>
-              <linearGradient id={`front-${priority.key}`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id={`front-${priority.key}`} x1="0" y1="0" x2=".35" y2="1">
                 <stop offset="0%" stopColor="var(--box-front-1)" />
-                <stop offset="100%" stopColor="var(--box-front-2)" />
+                <stop offset="55%" stopColor="var(--box-front-2)" />
+                <stop offset="100%" stopColor="var(--box-front-3)" />
               </linearGradient>
-              <linearGradient id={`side-${priority.key}`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id={`side-${priority.key}`} x1="0" y1="0" x2=".3" y2="1">
                 <stop offset="0%" stopColor="var(--box-side-1)" />
-                <stop offset="100%" stopColor="var(--box-side-2)" />
+                <stop offset="55%" stopColor="var(--box-side-2)" />
+                <stop offset="100%" stopColor="var(--box-side-3)" />
               </linearGradient>
-              <linearGradient id={`top-${priority.key}`} x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="var(--box-top-1)" />
-                <stop offset="100%" stopColor="var(--box-top-2)" />
+              <linearGradient id={`top-${priority.key}`} x1="0" y1="1" x2="1" y2="0">
+                <stop offset="0%" stopColor="var(--box-top-3)" />
+                <stop offset="50%" stopColor="var(--box-top-2)" />
+                <stop offset="100%" stopColor="var(--box-top-1)" />
               </linearGradient>
               <linearGradient id={`flap-${priority.key}`} x1="0" y1="0" x2=".8" y2="1">
                 <stop offset="0%" stopColor="var(--box-top-1)" />
-                <stop offset="100%" stopColor="var(--box-top-2)" />
+                <stop offset="60%" stopColor="var(--box-top-2)" />
+                <stop offset="100%" stopColor="var(--box-top-3)" />
+              </linearGradient>
+              {/* Edge highlight catching the overhead light, and a soft AO line where faces meet */}
+              <linearGradient id={`rim-${priority.key}`} x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
+                <stop offset="50%" stopColor="#ffffff" stopOpacity=".55" />
+                <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
               </linearGradient>
               {/* Soft two-layer contact shadow: a warm inner glow plus a broad neutral falloff */}
               <radialGradient id={`shadow-warm-${priority.key}`} cx="50%" cy="50%" r="50%">
@@ -119,7 +129,9 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
               <polygon points="50,100 195,100 250,65 105,65" fill={`url(#top-${priority.key})`} />
               <polygon points="195,100 250,65 250,195 195,230" fill={`url(#side-${priority.key})`} />
               <polygon points="50,100 195,100 195,230 50,230" fill={`url(#front-${priority.key})`} />
-              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(40,26,14,.16)" strokeWidth="1" />
+              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(30,18,9,.28)" strokeWidth="1.25" />
+              {/* Highlight catching the overhead light along the lid's outer edge */}
+              <path d="M250 65 L105 65 L50 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
               {/* Fold-crease marks on the lid */}
               <path d="M150 78 L165 72 M172 76 L184 70" stroke="rgba(255,250,238,.55)" strokeWidth="2" strokeLinecap="round" />
               {/* Crumpled paper accent, bottom-right */}
@@ -135,7 +147,8 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
               <polygon points="50,100 195,100 210,155 35,155" fill={`url(#flap-${priority.key})`} opacity=".94" />
               <polygon points="195,100 250,65 250,195 195,230" fill={`url(#side-${priority.key})`} />
               <polygon points="50,100 195,100 195,230 50,230" fill={`url(#front-${priority.key})`} />
-              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(40,26,14,.16)" strokeWidth="1" />
+              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(30,18,9,.28)" strokeWidth="1.25" />
+              <path d="M50 100 L195 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
               {/* Hand-hold die-cut */}
               <ellipse cx="170" cy="178" rx="8" ry="12" fill="rgba(20,10,5,.4)" />
             </g>
