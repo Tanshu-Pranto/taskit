@@ -23,6 +23,7 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
   const [organized, setOrganized] = useState(0);
   const [counts, setCounts] = useState<Record<PriorityKey, number>>({ high: 0, medium: 0, low: 0 });
   const [activeBox, setActiveBox] = useState<PriorityKey | null>(null);
+  const [openedBox, setOpenedBox] = useState<PriorityKey | null>(null);
   const [dropping, setDropping] = useState(false);
   const [stackCycle, setStackCycle] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
@@ -40,7 +41,7 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
   const prioritize = (priority: PriorityKey) => {
     const card = cardRef.current; const box = boxRefs.current.get(priority);
     if (!card || !box || dropping || !title.trim()) return;
-    setDropping(true); setActiveBox(null);
+    setDropping(true); setActiveBox(null); setOpenedBox(priority);
     const cardRect = card.getBoundingClientRect(); const boxRect = box.getBoundingClientRect();
     const dx = boxRect.left + boxRect.width / 2 - (cardRect.left + cardRect.width / 2);
     const dy = boxRect.top + boxRect.height * 0.45 - (cardRect.top + cardRect.height / 2);
@@ -48,6 +49,7 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
     window.setTimeout(() => {
       setCounts((previous) => ({ ...previous, [priority]: previous[priority] + 1 })); setOrganized((previous) => previous + 1); setTitle(''); setStackCycle((previous) => previous + 1); setDropping(false); setToast('Task prioritized ✓');
       card.classList.remove('paper-card-dropping'); card.style.removeProperty('transform'); card.style.removeProperty('opacity'); box.classList.remove('paper-box-bounce');
+      window.setTimeout(() => setOpenedBox(null), reducedMotion ? 0 : 520);
       window.setTimeout(() => inputRef.current?.focus(), reducedMotion ? 0 : 120);
     }, reducedMotion ? 100 : DROP_DURATION);
   };
@@ -78,11 +80,63 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
         </div>
       </div>
       <div className="paper-boxes" aria-label="Priority drop zones">
-        {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''}`} style={{ '--box-color': priority.color } as React.CSSProperties}><span className="paper-box-flap paper-box-flap-left" /><span className="paper-box-flap paper-box-flap-right" /><div className="paper-box-opening"><span>{activeBox === priority.key ? 'Drop here' : 'Sort it here'}</span></div><div className="paper-box-face"><span className="paper-box-label">{priority.label}</span><span className="paper-box-count">{counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}</span><i className="paper-box-dot" /></div></div>)}
+        {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`} style={{ '--box-color': priority.color } as React.CSSProperties}>
+          <svg className="paper-box-illustration" viewBox="0 0 300 230" aria-hidden="true">
+            <defs>
+              <linearGradient id={`front-${priority.key}`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="var(--box-front-1)" /><stop offset="1" stopColor="var(--box-front-2)" /></linearGradient>
+              <linearGradient id={`left-${priority.key}`} x1="0" y1="0" x2="0" y2="1"><stop stopColor="var(--box-side-1)" /><stop offset="1" stopColor="var(--box-side-2)" /></linearGradient>
+              <linearGradient id={`flap-${priority.key}`} x1="0" y1="0" x2=".8" y2="1"><stop stopColor="var(--box-flap-1)" /><stop offset="1" stopColor="var(--box-flap-2)" /></linearGradient>
+              <radialGradient id={`shadow-${priority.key}`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#000000" stopOpacity=".32" />
+                <stop offset="70%" stopColor="#000000" stopOpacity=".14" />
+                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              </radialGradient>
+              {/* Subtle corrugated-fiber texture, painted as a low-opacity overlay on top of each face */}
+              <filter id={`fiber-${priority.key}`} x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.85 0.05" numOctaves="2" seed="7" result="noise" />
+                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.07  0 0 0 0 0.03  0 0 0 0.3 0" />
+                <feComposite operator="in" in2="SourceGraphic" />
+              </filter>
+            </defs>
+            <g className="paper-box-closed">
+              <ellipse cx="157" cy="228" rx="128" ry="14" fill={`url(#shadow-${priority.key})`} />
+              <polygon points="48,81 151,52 269,83 160,117" fill={`url(#flap-${priority.key})`} stroke="#81502c" strokeWidth="1.25" />
+              <polygon points="48,81 160,117 160,220 48,188" fill={`url(#left-${priority.key})`} stroke="#84502a" strokeWidth="1.25" />
+              <polygon points="160,117 269,83 269,187 160,220" fill={`url(#front-${priority.key})`} stroke="#9b5e30" strokeWidth="1.25" />
+              <polygon points="48,81 160,117 160,220 48,188" fill={`url(#front-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
+              <polygon points="160,117 269,83 269,187 160,220" fill={`url(#front-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
+              <path d="M48 81 L160 117 L269 83 M160 117 L160 220" fill="none" stroke="rgba(83,42,18,.52)" strokeWidth="1.15" />
+              <path d="M76 73 L160 100 L238 77" fill="none" stroke="rgba(92,49,22,.42)" strokeWidth="1.1" />
+              <path d="M49 80 L151 53 L268 83" fill="none" stroke="rgba(255,232,184,.44)" strokeWidth="1.2" />
+            </g>
+            <g className="paper-box-open">
+              <ellipse cx="153" cy="213" rx="122" ry="15" fill={`url(#shadow-${priority.key})`} />
+              <polygon points="80,104 139,72 237,104 218,120 105,120" fill="var(--box-interior)" />
+              <polygon points="139,72 166,15 273,18 237,104" fill={`url(#flap-${priority.key})`} stroke="#81502c" strokeWidth="1.2" />
+              <polygon points="15,48 85,48 139,72 80,104" fill={`url(#flap-${priority.key})`} stroke="#81502c" strokeWidth="1.2" />
+              <polygon points="273,18 299,27 237,104 222,102" fill="var(--box-flap-1)" stroke="#81502c" strokeWidth="1.2" />
+              <polygon points="48,94 80,104 80,204 48,190" fill={`url(#left-${priority.key})`} stroke="#84502a" strokeWidth="1.2" />
+              <polygon points="80,104 237,104 237,203 80,204" fill={`url(#front-${priority.key})`} stroke="#9b5e30" strokeWidth="1.2" />
+              <polygon points="48,94 80,104 80,204 48,190" fill={`url(#left-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
+              <polygon points="80,104 237,104 237,203 80,204" fill={`url(#front-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
+              {/* Hand-hold die-cut */}
+              <rect x="150" y="172" width="16" height="26" rx="3" fill="rgba(0,0,0,.5)" />
+              <path d="M158 105 L158 202" stroke="rgba(113,63,27,.16)" strokeWidth="1" />
+              <path d="M80 104 L237 104" stroke="rgba(255,232,184,.5)" strokeWidth="1.4" />
+            </g>
+            <g className="paper-box-sticker" transform="translate(181 166)">
+              <rect width="68" height="25" rx="1.5" fill="#f4e2b9" stroke="#d7bc87" strokeWidth=".7" />
+              <circle cx="8" cy="9" r="3.8" fill={priority.color} />
+              <text x="15" y="11.5" fill="#2b2015" fontSize="5.8" fontWeight="800" letterSpacing=".25">{priority.label.toUpperCase()}</text>
+              <text x="15" y="19.3" fill="#6b5340" fontSize="5.2" fontWeight="650">{counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}</text>
+            </g>
+          </svg>
+          <div className="paper-box-opening"><span>{activeBox === priority.key ? 'Drop here' : 'Drag to sort'}</span></div>
+        </div>)}
       </div>
     </div>
     {toast && <div className="paper-toast" role="status"><Check size={15} /> {toast}</div>}
     <div id="hero-task-help" className="paper-help">{title.trim() ? 'Drag the paper into a box, or set its priority here:' : 'The paper is your task input — no form required.'}{title.trim() && <span className="paper-priority-actions" role="group" aria-label="Set priority">{PRIORITIES.map((priority) => <button key={priority.key} onClick={() => prioritize(priority.key)}>{priority.label}</button>)}</span>}</div>
-    <button className="paper-dashboard-button" onClick={() => onOpenAuth('signup')}>Go to your Customized dashboard</button>
+    <button className="paper-dashboard-button" onClick={() => onOpenAuth('signup')}>Open customized dashboard</button>
   </div>;
 };
