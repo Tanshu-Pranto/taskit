@@ -51,16 +51,16 @@
   --priority-high: #fbbf24;
   --priority-urgent: #ff3b30;
 
-  /* Cardboard priority boxes (hero) — accurate kraft-cardboard hue, dimmed for a dark UI */
-  --box-top-1: #7d6a4d;
-  --box-top-2: #6d5b40;
-  --box-top-3: #5c4c36;
-  --box-front-1: #6b5539;
-  --box-front-2: #574429;
-  --box-front-3: #453620;
-  --box-side-1: #4a3b28;
-  --box-side-2: #3a2e1e;
-  --box-side-3: #2c2317;
+  /* Cardboard priority boxes (hero) — anchored on the requested #a97835, dimmed for a dark UI */
+  --box-top-1: #8a6a3f;
+  --box-top-2: #755a34;
+  --box-top-3: #5f4a2a;
+  --box-front-1: #755a34;
+  --box-front-2: #5f4a2a;
+  --box-front-3: #4a3a21;
+  --box-side-1: #4a3a21;
+  --box-side-2: #3a2e1a;
+  --box-side-3: #2c2314;
   --box-interior: #120904;
   --box-label: #e8dcc0;
   --box-label-text: #1a130c;
@@ -120,16 +120,16 @@
   --accent-gradient: linear-gradient(135deg, #eb5a22 0%, #b23a0f 100%);
   --growth-gradient: linear-gradient(135deg, #ff8a3d 0%, #ffe3d1 100%);
 
-  /* Cardboard priority boxes (hero) — accurate kraft-cardboard hue, bright side of the theme */
-  --box-top-1: #ddc196;
-  --box-top-2: #c8a172;
-  --box-top-3: #b08957;
-  --box-front-1: #c9a373;
-  --box-front-2: #ad8452;
-  --box-front-3: #8a6740;
-  --box-side-1: #93724a;
-  --box-side-2: #755937;
-  --box-side-3: #5a4429;
+  /* Cardboard priority boxes (hero) — anchored on the requested #a97835 */
+  --box-top-1: #d9b06a;
+  --box-top-2: #c49952;
+  --box-top-3: #a97835;
+  --box-front-1: #c49952;
+  --box-front-2: #a97835;
+  --box-front-3: #8a611f;
+  --box-side-1: #8a611f;
+  --box-side-2: #6e4d19;
+  --box-side-3: #543a12;
   --box-interior: #2b1710;
   --box-label: #f3e9d1;
   --box-label-text: #241b12;
