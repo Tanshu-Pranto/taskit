@@ -51,16 +51,18 @@
   --priority-high: #fbbf24;
   --priority-urgent: #ff3b30;
 
-  /* Cardboard priority boxes (hero) — anchored on the requested #a97835, dimmed for a dark UI */
-  --box-top-1: #8a6a3f;
-  --box-top-2: #755a34;
-  --box-top-3: #5f4a2a;
-  --box-front-1: #755a34;
-  --box-front-2: #5f4a2a;
-  --box-front-3: #4a3a21;
-  --box-side-1: #4a3a21;
-  --box-side-2: #3a2e1a;
-  --box-side-3: #2c2314;
+  /* Cardboard priority boxes (hero) — anchored on the requested #a97835.
+     Kept as bright as the light theme: a cardboard box doesn't change color
+     just because the page around it went dark, only the UI does. */
+  --box-top-1: #d9b06a;
+  --box-top-2: #c49952;
+  --box-top-3: #a97835;
+  --box-front-1: #c49952;
+  --box-front-2: #a97835;
+  --box-front-3: #8a611f;
+  --box-side-1: #8a611f;
+  --box-side-2: #6e4d19;
+  --box-side-3: #543a12;
   --box-interior: #120904;
   --box-label: #e8dcc0;
   --box-label-text: #1a130c;
