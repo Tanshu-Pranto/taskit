@@ -85,75 +85,77 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
             <defs>
               <linearGradient id={`front-${priority.key}`} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--box-front-1)" />
-                <stop offset="55%" stopColor="var(--box-front-2)" />
-                <stop offset="100%" stopColor="var(--box-front-3)" />
+                <stop offset="100%" stopColor="var(--box-front-2)" />
               </linearGradient>
-              <linearGradient id={`left-${priority.key}`} x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id={`side-${priority.key}`} x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="var(--box-side-1)" />
-                <stop offset="55%" stopColor="var(--box-side-2)" />
-                <stop offset="100%" stopColor="var(--box-side-3)" />
+                <stop offset="100%" stopColor="var(--box-side-2)" />
+              </linearGradient>
+              <linearGradient id={`top-${priority.key}`} x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="var(--box-top-1)" />
+                <stop offset="100%" stopColor="var(--box-top-2)" />
               </linearGradient>
               <linearGradient id={`flap-${priority.key}`} x1="0" y1="0" x2=".8" y2="1">
-                <stop offset="0%" stopColor="var(--box-flap-1)" />
-                <stop offset="100%" stopColor="var(--box-flap-2)" />
-              </linearGradient>
-              <linearGradient id={`top-${priority.key}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--box-front-1)" />
-                <stop offset="100%" stopColor="var(--box-side-1)" />
+                <stop offset="0%" stopColor="var(--box-top-1)" />
+                <stop offset="100%" stopColor="var(--box-top-2)" />
               </linearGradient>
               {/* Soft two-layer contact shadow: a warm inner glow plus a broad neutral falloff */}
               <radialGradient id={`shadow-warm-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#3a1c0c" stopOpacity=".38" />
+                <stop offset="0%" stopColor="#3a1c0c" stopOpacity=".32" />
                 <stop offset="100%" stopColor="#3a1c0c" stopOpacity="0" />
               </radialGradient>
               <radialGradient id={`shadow-soft-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#000000" stopOpacity=".22" />
+                <stop offset="0%" stopColor="#000000" stopOpacity=".2" />
                 <stop offset="100%" stopColor="#000000" stopOpacity="0" />
               </radialGradient>
-              {/* Very subtle corrugated-fiber texture, painted as a low-opacity overlay on top of each face */}
-              <filter id={`fiber-${priority.key}`} x="-20%" y="-20%" width="140%" height="140%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.85 0.05" numOctaves="2" seed="7" result="noise" />
-                <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.07  0 0 0 0 0.03  0 0 0 0.14 0" />
-                <feComposite operator="in" in2="SourceGraphic" />
-              </filter>
+              <radialGradient id={`dot-glow-${priority.key}`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor={priority.color} stopOpacity=".55" />
+                <stop offset="100%" stopColor={priority.color} stopOpacity="0" />
+              </radialGradient>
             </defs>
             <g className="paper-box-closed">
-              <ellipse cx="157" cy="230" rx="90" ry="10" fill={`url(#shadow-warm-${priority.key})`} />
-              <ellipse cx="157" cy="230" rx="140" ry="16" fill={`url(#shadow-soft-${priority.key})`} />
-              <polygon points="150,40 55,100 150,70 245,100" fill={`url(#top-${priority.key})`} />
-              <polygon points="150,70 55,100 55,215 150,245" fill={`url(#left-${priority.key})`} />
-              <polygon points="150,70 245,100 245,215 150,245" fill={`url(#front-${priority.key})`} />
-              <polygon points="150,70 55,100 55,215 150,245" fill={`url(#left-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
-              <polygon points="150,70 245,100 245,215 150,245" fill={`url(#front-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
-              <path d="M150 40 L55 100 M150 40 L245 100 M150 70 L150 245" fill="none" stroke="rgba(58,28,12,.16)" strokeWidth="1" />
-              <path d="M150 40 L55 100 M150 40 L245 100" fill="none" stroke="rgba(255,244,224,.4)" strokeWidth="1.2" />
-              {/* Tape, sealing the center seam at the top */}
-              <rect x="139" y="48" width="22" height="56" rx="2" fill="rgba(247,236,213,.72)" />
-              <rect x="139" y="48" width="22" height="56" rx="2" fill="none" stroke="rgba(58,28,12,.08)" strokeWidth=".75" />
+              <ellipse cx="150" cy="238" rx="82" ry="9" fill={`url(#shadow-warm-${priority.key})`} />
+              <ellipse cx="150" cy="238" rx="128" ry="14" fill={`url(#shadow-soft-${priority.key})`} />
+              <polygon points="50,100 195,100 250,65 105,65" fill={`url(#top-${priority.key})`} />
+              <polygon points="195,100 250,65 250,195 195,230" fill={`url(#side-${priority.key})`} />
+              <polygon points="50,100 195,100 195,230 50,230" fill={`url(#front-${priority.key})`} />
+              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(40,26,14,.16)" strokeWidth="1" />
+              {/* Fold-crease marks on the lid */}
+              <path d="M150 78 L165 72 M172 76 L184 70" stroke="rgba(255,250,238,.55)" strokeWidth="2" strokeLinecap="round" />
+              {/* Crumpled paper accent, bottom-right */}
+              <path d="M212 210 q6 5 3 12 M223 206 q7 4 4 12" fill="none" stroke="rgba(40,26,14,.28)" strokeWidth="1.4" strokeLinecap="round" />
             </g>
             <g className="paper-box-open">
-              <ellipse cx="150" cy="222" rx="86" ry="10" fill={`url(#shadow-warm-${priority.key})`} />
-              <ellipse cx="150" cy="222" rx="134" ry="16" fill={`url(#shadow-soft-${priority.key})`} />
-              <polygon points="55,100 150,110 245,100 150,75" fill="var(--box-interior)" />
-              <polygon points="150,75 245,100 296,58 194,32" fill={`url(#flap-${priority.key})`} />
-              <polygon points="55,100 150,75 194,32 92,44" fill={`url(#flap-${priority.key})`} />
-              <polygon points="55,100 150,110 128,158 40,148" fill={`url(#flap-${priority.key})`} opacity=".92" />
-              <polygon points="150,70 55,100 55,215 150,245" fill={`url(#left-${priority.key})`} />
-              <polygon points="150,70 245,100 245,215 150,245" fill={`url(#front-${priority.key})`} />
-              <polygon points="150,70 55,100 55,215 150,245" fill={`url(#left-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
-              <polygon points="150,70 245,100 245,215 150,245" fill={`url(#front-${priority.key})`} filter={`url(#fiber-${priority.key})`} />
-              <path d="M55 100 L150 110 L245 100" fill="none" stroke="rgba(58,28,12,.18)" strokeWidth="1" />
-              <path d="M150 70 L150 245" fill="none" stroke="rgba(58,28,12,.12)" strokeWidth="1" />
-              <path d="M150 70 L55 100 M150 70 L245 100" fill="none" stroke="rgba(255,244,224,.4)" strokeWidth="1.2" />
+              <ellipse cx="150" cy="230" rx="80" ry="9" fill={`url(#shadow-warm-${priority.key})`} />
+              <ellipse cx="150" cy="230" rx="124" ry="14" fill={`url(#shadow-soft-${priority.key})`} />
+              <polygon points="50,100 195,100 250,65 105,65" fill="var(--box-interior)" />
+              <polygon points="105,65 250,65 250,10 105,10" fill={`url(#flap-${priority.key})`} />
+              <polygon points="195,100 250,65 320,20 265,55" fill={`url(#flap-${priority.key})`} />
+              <polygon points="105,65 50,100 -20,55 35,20" fill={`url(#flap-${priority.key})`} />
+              <polygon points="50,100 195,100 210,155 35,155" fill={`url(#flap-${priority.key})`} opacity=".94" />
+              <polygon points="195,100 250,65 250,195 195,230" fill={`url(#side-${priority.key})`} />
+              <polygon points="50,100 195,100 195,230 50,230" fill={`url(#front-${priority.key})`} />
+              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(40,26,14,.16)" strokeWidth="1" />
               {/* Hand-hold die-cut */}
-              <ellipse cx="197" cy="163" rx="9" ry="13" fill="rgba(20,10,5,.42)" />
+              <ellipse cx="170" cy="178" rx="8" ry="12" fill="rgba(20,10,5,.4)" />
             </g>
-            <g className="paper-box-sticker" transform="translate(181 166)">
-              <rect width="68" height="25" rx="1.5" fill="#f4e2b9" stroke="#d7bc87" strokeWidth=".7" />
-              <circle cx="8" cy="9" r="3.8" fill={priority.color} />
-              <text x="15" y="11.5" fill="#2b2015" fontSize="5.8" fontWeight="800" letterSpacing=".25">{priority.label.toUpperCase()}</text>
-              <text x="15" y="19.3" fill="#6b5340" fontSize="5.2" fontWeight="650">{counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}</text>
+            {/* Torn-paper priority label, taped to the lower-left of the front face */}
+            <g transform="translate(53 183) rotate(-3)">
+              <polygon
+                points="0,4 4,0 88,3 92,8 90,34 86,38 3,36 0,30"
+                fill="var(--box-label)"
+                stroke="rgba(40,26,14,.14)"
+                strokeWidth=".75"
+              />
+              <text x="8" y="17" fill="var(--box-label-text)" fontSize="10.5" fontWeight="800" letterSpacing=".2">
+                {priority.label.toUpperCase()}
+              </text>
+              <text x="8" y="29" fill="var(--box-label-text)" fontSize="7" fontWeight="600" opacity=".62">
+                {counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}
+              </text>
             </g>
+            <circle cx="168" cy="178" r="14" fill={`url(#dot-glow-${priority.key})`} />
+            <circle cx="168" cy="178" r="8" fill={priority.color} />
           </svg>
           <div className="paper-box-opening"><span>{activeBox === priority.key ? 'Drop here' : 'Drag to sort'}</span></div>
         </div>)}

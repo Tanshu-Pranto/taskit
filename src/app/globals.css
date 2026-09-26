@@ -52,15 +52,15 @@
   --priority-urgent: #ff3b30;
 
   /* Cardboard priority boxes (hero) — dimmer, desaturated tone against a dark UI */
-  --box-front-1: #8a6a45;
-  --box-front-2: #6b4d2c;
-  --box-front-3: #4d3319;
-  --box-side-1: #7c5c3a;
-  --box-side-2: #5e4326;
-  --box-side-3: #3e2a15;
-  --box-flap-1: #8f6c44;
-  --box-flap-2: #5e4326;
-  --box-interior: #140a05;
+  --box-top-1: #7d6a49;
+  --box-top-2: #665337;
+  --box-front-1: #6f5330;
+  --box-front-2: #5a4326;
+  --box-side-1: #503b23;
+  --box-side-2: #3d2c1a;
+  --box-interior: #120904;
+  --box-label: #e8dcc0;
+  --box-label-text: #1a130c;
 
   /* Shadows & Radius */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -118,15 +118,15 @@
   --growth-gradient: linear-gradient(135deg, #ff8a3d 0%, #ffe3d1 100%);
 
   /* Cardboard priority boxes (hero) — bright warm cream/tan, matching the reference photo */
-  --box-front-1: #f7ead2;
-  --box-front-2: #e7bd8a;
-  --box-front-3: #d29c66;
-  --box-side-1: #eecda0;
-  --box-side-2: #d19f68;
-  --box-side-3: #b87f4a;
-  --box-flap-1: #f2ddb8;
-  --box-flap-2: #dcae76;
+  --box-top-1: #f0dfb8;
+  --box-top-2: #e3cd9d;
+  --box-front-1: #d3a06a;
+  --box-front-2: #bd8850;
+  --box-side-1: #ab764a;
+  --box-side-2: #8f5f39;
   --box-interior: #2b1710;
+  --box-label: #f3e9d1;
+  --box-label-text: #241b12;
 
   --shadow-sm: 0 2px 6px rgba(20, 14, 10, 0.04);
   --shadow-md: 0 8px 20px rgba(20, 14, 10, 0.06);
