@@ -150,25 +150,29 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
               <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(30,18,9,.28)" strokeWidth="1.25" />
               <path d="M50 100 L195 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
               {/* Hand-hold die-cut */}
-              <ellipse cx="170" cy="178" rx="8" ry="12" fill="rgba(20,10,5,.4)" />
+              <ellipse cx="184" cy="207" rx="7" ry="10" fill="rgba(20,10,5,.4)" />
             </g>
-            {/* Torn-paper priority label, taped to the lower-left of the front face */}
-            <g transform="translate(53 183) rotate(-3)">
+            {/* Priority dot, glowing, sitting clear above the label */}
+            <circle cx="153" cy="141" r="16" fill={`url(#dot-glow-${priority.key})`} />
+            <circle cx="153" cy="141" r="9.5" fill={priority.color} />
+            {/* Torn-paper priority label, taped across most of the front face, near the bottom */}
+            <g transform="translate(56 172) rotate(-2)">
               <polygon
-                points="0,4 4,0 88,3 92,8 90,34 86,38 3,36 0,30"
+                points="0,7 7,0 123,4 129,12 126,49 120,54 4,51 0,43"
                 fill="var(--box-label)"
                 stroke="rgba(40,26,14,.14)"
                 strokeWidth=".75"
               />
-              <text x="8" y="17" fill="var(--box-label-text)" fontSize="10.5" fontWeight="800" letterSpacing=".2">
+              {/* Tape patches holding the paper down at each end */}
+              <rect x="2" y="2" width="16" height="48" fill="#ffffff" opacity=".14" />
+              <rect x="110" y="2" width="16" height="48" fill="#ffffff" opacity=".14" />
+              <text x="10" y="27" fill="var(--box-label-text)" fontSize="12.5" fontWeight="800">
                 {priority.label.toUpperCase()}
               </text>
-              <text x="8" y="29" fill="var(--box-label-text)" fontSize="7" fontWeight="600" opacity=".62">
+              <text x="10" y="42" fill="var(--box-label-text)" fontSize="7.5" fontWeight="600" opacity=".6">
                 {counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}
               </text>
             </g>
-            <circle cx="168" cy="178" r="14" fill={`url(#dot-glow-${priority.key})`} />
-            <circle cx="168" cy="178" r="8" fill={priority.color} />
           </svg>
           <div className="paper-box-opening"><span>{activeBox === priority.key ? 'Drop here' : 'Drag to sort'}</span></div>
         </div>)}
