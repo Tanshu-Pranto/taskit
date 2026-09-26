@@ -1,7 +1,7 @@
 import { Task, Category, UserProfile } from '@/types/task';
 
 export const INITIAL_CATEGORIES: Category[] = [
-  { id: 'cat-1', name: 'Product', color: '#00f59b', icon: 'Sparkles' },
+  { id: 'cat-1', name: 'Product', color: '#2dd4bf', icon: 'Sparkles' },
   { id: 'cat-2', name: 'Design', color: '#38bdf8', icon: 'Palette' },
   { id: 'cat-3', name: 'Engineering', color: '#a78bfa', icon: 'Cpu' },
   { id: 'cat-4', name: 'Strategy', color: '#fbbf24', icon: 'Compass' },

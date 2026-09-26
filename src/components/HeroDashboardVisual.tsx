@@ -54,11 +54,12 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
   };
 
   const isLight = internalTheme === 'light';
-  const surface = isLight ? '#ffffff' : 'rgba(13, 30, 22, 0.85)';
-  const border = isLight ? 'rgba(16, 38, 26, 0.1)' : 'rgba(255, 255, 255, 0.08)';
-  const textMain = isLight ? '#081710' : '#f1fbf5';
-  const textMuted = isLight ? '#748c80' : '#8ea69b';
-  const shell = isLight ? '#eef6f1' : '#060e0a';
+  const surface = isLight ? '#ffffff' : 'rgba(28, 28, 28, 0.85)';
+  const border = isLight ? 'rgba(30, 22, 15, 0.08)' : 'rgba(255, 255, 255, 0.08)';
+  const textMain = isLight ? '#1c1512' : '#f5f4f2';
+  const textMuted = isLight ? '#5c5147' : '#a3a19d';
+  const shell = isLight ? '#f7f4f1' : '#121212';
+  const subtleBg = isLight ? '#f3ece6' : 'rgba(255, 255, 255, 0.045)';
 
   return (
     <div style={{ position: 'relative', width: '100%', maxWidth: '1140px', margin: '0 auto' }}>
@@ -108,7 +109,7 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
             alignItems: 'center',
             gap: '14px',
             padding: '18px 0',
-            background: isLight ? '#ffffff' : 'rgba(6, 14, 10, 0.6)',
+            background: isLight ? '#ffffff' : 'rgba(18, 18, 18, 0.6)',
             borderRight: `1px solid ${border}`,
           }}
         >
@@ -188,7 +189,7 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
                 width: '34px',
                 height: '34px',
                 borderRadius: '50%',
-                background: 'linear-gradient(135deg, #00f59b 0%, #059669 100%)',
+                background: 'linear-gradient(135deg, #ff8a3d 0%, #ff4d2e 100%)',
                 flexShrink: 0,
               }}
             />
@@ -222,7 +223,7 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
                 <div style={{ fontSize: '0.7rem', fontWeight: 700, padding: '6px 10px', borderRadius: '8px', background: 'var(--primary-subtle)', color: 'var(--primary)' }}>
                   Design Sync <span style={{ fontWeight: 500, opacity: 0.8 }}>· Design workshop</span>
                 </div>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, padding: '6px 10px', borderRadius: '8px', background: 'var(--bg-subtle)', color: textMain }}>
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, padding: '6px 10px', borderRadius: '8px', background: subtleBg, color: textMain }}>
                   Team Building <span style={{ fontWeight: 500, opacity: 0.7 }}>· Project update</span>
                 </div>
               </div>
@@ -267,7 +268,7 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
               <div style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '10px', color: textMain }}>Team</div>
               <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
                 {[0, 1, 2].map((i) => (
-                  <div key={i} style={{ flex: 1, aspectRatio: '3/4', borderRadius: '6px', background: isLight ? '#f1f5f3' : 'rgba(255,255,255,0.06)', border: `1px solid ${border}` }} />
+                  <div key={i} style={{ flex: 1, aspectRatio: '3/4', borderRadius: '6px', background: isLight ? '#f3ece6' : 'rgba(255,255,255,0.06)', border: `1px solid ${border}` }} />
                 ))}
               </div>
               <div style={{ fontSize: '0.68rem', fontWeight: 700, color: textMuted, textTransform: 'uppercase', marginBottom: '4px' }}>Goal</div>
@@ -285,7 +286,7 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
                 <div style={{ fontSize: '0.68rem', color: textMuted, fontWeight: 700, textAlign: 'left', marginBottom: '2px' }}>Main task</div>
                 <div style={{ position: 'relative', width: '96px', height: '56px', margin: '2px auto' }}>
                   <svg width="96" height="56" viewBox="0 0 96 56">
-                    <path d="M 10 50 A 38 38 0 0 1 86 50" fill="none" stroke={isLight ? '#e3f0e8' : 'rgba(255,255,255,0.1)'} strokeWidth="8" strokeLinecap="round" />
+                    <path d="M 10 50 A 38 38 0 0 1 86 50" fill="none" stroke={isLight ? '#efe3d8' : 'rgba(255,255,255,0.1)'} strokeWidth="8" strokeLinecap="round" />
                     <path
                       d="M 10 50 A 38 38 0 0 1 86 50"
                       fill="none"
@@ -335,7 +336,7 @@ export const HeroDashboardVisual: React.FC<HeroDashboardVisualProps> = ({ onEnte
                   { label: 'Goal 2', title: 'Streamline Delivery', badge: 'badge-in_progress', status: 'In Progress' },
                   { label: 'Goal 3', title: 'Cross-team Alignment', badge: 'badge-urgent', status: 'Closed' },
                 ].map((g) => (
-                  <div key={g.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 8px', borderRadius: '6px', background: isLight ? '#f1f5f3' : 'rgba(255,255,255,0.04)' }}>
+                  <div key={g.label} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '5px 8px', borderRadius: '6px', background: isLight ? '#f3ece6' : 'rgba(255,255,255,0.04)' }}>
                     <span style={{ fontSize: '0.62rem', fontWeight: 700, color: textMuted }}>{g.label}</span>
                     <span style={{ fontSize: '0.66rem', fontWeight: 600, color: textMain, flex: 1, margin: '0 6px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{g.title}</span>
                     <span className={`badge ${g.badge}`} style={{ fontSize: '0.55rem', padding: '2px 7px' }}>{g.status}</span>

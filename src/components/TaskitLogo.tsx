@@ -24,15 +24,15 @@ export const TaskitLogo: React.FC<TaskitLogoProps> = ({
           width: `${size}px`,
           height: `${size}px`,
           borderRadius: `${Math.max(8, Math.round(size * 0.3))}px`,
-          background: variant === 'neon' 
-            ? 'linear-gradient(135deg, #00f59b 0%, #059669 100%)' 
+          background: variant === 'neon'
+            ? 'linear-gradient(135deg, #ff8a3d 0%, #ff4d2e 100%)'
             : 'var(--bg-subtle)',
-          boxShadow: variant === 'neon' ? '0 0 20px rgba(0, 245, 155, 0.4)' : 'none',
+          boxShadow: variant === 'neon' ? '0 0 20px rgba(255, 107, 53, 0.4)' : 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
-          color: variant === 'neon' ? '#03150d' : 'var(--primary)',
+          color: variant === 'neon' ? '#fffaf7' : 'var(--primary)',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease',
         }}
       >
@@ -103,7 +103,7 @@ export const TaskitLogo: React.FC<TaskitLogoProps> = ({
                 borderRadius: '999px',
                 background: 'var(--primary-subtle)',
                 color: 'var(--primary)',
-                border: '1px solid rgba(0, 245, 155, 0.25)',
+                border: '1px solid rgba(255, 107, 53, 0.25)',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
               }}
