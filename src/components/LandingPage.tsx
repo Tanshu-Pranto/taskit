@@ -10,10 +10,8 @@ import {
   CheckSquare,
   Calendar,
   Search,
-  Layers,
   Clock,
   TrendingUp,
-  Zap,
   FolderPlus,
   Target,
   ChevronRight
@@ -21,6 +19,8 @@ import {
 import { ThemeMode } from '@/types/task';
 import { TaskitLogo } from './TaskitLogo';
 import { HeroPriorityScene } from './HeroPriorityScene';
+import { InfiniteCardCarousel } from './InfiniteCardCarousel';
+import { StreamlinedFlow } from './StreamlinedFlow';
 
 interface LandingPageProps {
   theme: ThemeMode;
@@ -258,14 +258,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </p>
         </div>
 
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '24px',
-          }}
-        >
-          {[
+        <InfiniteCardCarousel
+          items={[
             {
               icon: <CheckSquare size={28} />,
               color: 'var(--primary)',
@@ -319,16 +313,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               title: 'Dark & Light Mode',
               desc: 'A beautiful experience in any environment.',
             },
-          ].map((feature) => (
-            <div key={feature.title} className="card card-interactive" style={{ padding: '24px' }}>
-              <div style={{ color: feature.color, marginBottom: '16px' }}>{feature.icon}</div>
-              <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '8px' }}>{feature.title}</h3>
-              <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                {feature.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+          ]}
+        />
       </section>
 
       {/* How It Works Section */}
@@ -362,80 +348,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </p>
           </div>
 
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '24px',
-              position: 'relative',
-            }}
-          >
-            {[
-              {
-                step: '01',
-                title: 'Create',
-                desc: 'Add everything you need to accomplish.',
-                icon: <Zap size={22} />,
-              },
-              {
-                step: '02',
-                title: 'Organize',
-                desc: 'Set priorities, deadlines, categories and reminders.',
-                icon: <Layers size={22} />,
-              },
-              {
-                step: '03',
-                title: 'Complete',
-                desc: 'Track your progress and get things done.',
-                icon: <CheckCircle2 size={22} />,
-              },
-            ].map((s) => (
-              <div
-                key={s.step}
-                className="card"
-                style={{
-                  padding: '28px 24px',
-                  background: 'var(--bg-surface)',
-                  position: 'relative',
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 900,
-                    color: 'var(--primary-subtle)',
-                    position: 'absolute',
-                    top: '16px',
-                    right: '20px',
-                    lineHeight: 1,
-                  }}
-                >
-                  {s.step}
-                </div>
-                <div
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '10px',
-                    background: 'var(--primary-subtle)',
-                    color: 'var(--primary)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginBottom: '20px',
-                  }}
-                >
-                  {s.icon}
-                </div>
-                <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '10px' }}>
-                  {s.title}
-                </h3>
-                <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                  {s.desc}
-                </p>
-              </div>
-            ))}
-          </div>
+          <StreamlinedFlow />
         </div>
       </section>
 
