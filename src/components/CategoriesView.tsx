@@ -13,7 +13,8 @@ import {
   Heart,
   Bookmark,
   Check,
-  Trash2
+  Trash2,
+  FolderTree
 } from 'lucide-react';
 
 interface CategoriesViewProps {
@@ -99,13 +100,30 @@ export const CategoriesView: React.FC<CategoriesViewProps> = ({
           gap: '12px',
         }}
       >
-        <div>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
-            Custom Categories
-          </h2>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-            Compartmentalize your work, personal projects, university studies, and daily tasks.
-          </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '8px',
+              background: 'var(--primary-subtle)',
+              color: 'var(--primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <FolderTree size={18} />
+          </div>
+          <div>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
+              Custom Categories
+            </h2>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
+              Compartmentalize your work, personal projects, university studies, and daily tasks.
+            </p>
+          </div>
         </div>
 
         <button

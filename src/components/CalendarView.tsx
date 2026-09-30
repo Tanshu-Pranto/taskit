@@ -11,6 +11,8 @@ interface CalendarViewProps {
   onAddTaskOnDate: (dateStr: string) => void;
 }
 
+const MAX_VISIBLE_CHIPS = 3;
+
 export const CalendarView: React.FC<CalendarViewProps> = ({
   tasks,
   categories,
@@ -89,14 +91,14 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   }
 
   return (
-    <div className="card" style={{ padding: '24px', margin: '0 32px 32px 32px' }}>
+    <div className="card" style={{ padding: '20px', margin: '0 32px 32px 32px' }}>
       {/* Calendar Header */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: '20px',
+          marginBottom: '18px',
           flexWrap: 'wrap',
           gap: '12px',
         }}
@@ -112,149 +114,169 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              flexShrink: 0,
             }}
           >
             <CalendarIcon size={18} />
           </div>
           <div>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
               {monthNames[month]} {year}
             </h2>
-            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              Tasks by scheduled delivery dates
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              Tasks by scheduled delivery date
             </span>
           </div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button className="btn btn-secondary" style={{ padding: '6px 14px' }} onClick={handleToday}>
+          <button className="btn btn-secondary btn-pill" style={{ padding: '6px 14px', fontSize: '0.82rem' }} onClick={handleToday}>
             Today
           </button>
-          <button className="btn btn-ghost" style={{ padding: '6px' }} onClick={handlePrevMonth}>
-            <ChevronLeft size={18} />
-          </button>
-          <button className="btn btn-ghost" style={{ padding: '6px' }} onClick={handleNextMonth}>
-            <ChevronRight size={18} />
-          </button>
+          <div style={{ display: 'flex', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+            <button className="btn btn-ghost" style={{ padding: '6px 8px', borderRadius: 0 }} onClick={handlePrevMonth} title="Previous month">
+              <ChevronLeft size={16} />
+            </button>
+            <button className="btn btn-ghost" style={{ padding: '6px 8px', borderRadius: 0, borderLeft: '1px solid var(--border-color)' }} onClick={handleNextMonth} title="Next month">
+              <ChevronRight size={16} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Weekday headers */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
-          borderBottom: '1px solid var(--border-color)',
-          paddingBottom: '8px',
-          marginBottom: '8px',
-          textAlign: 'center',
-          fontSize: '0.75rem',
-          fontWeight: 700,
-          color: 'var(--text-muted)',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px',
-        }}
-      >
-        {daysOfWeek.map((day) => (
-          <div key={day}>{day}</div>
-        ))}
-      </div>
-
-      {/* Days Grid */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
-          gap: '6px',
-        }}
-      >
-        {calendarCells.map((cell, idx) => {
-          const dayTasks = tasks.filter((t) => t.dueDate === cell.dateStr);
-
-          return (
-            <div
-              key={`${cell.dateStr}-${idx}`}
-              style={{
-                minHeight: '110px',
-                minWidth: 0,
-                padding: '8px',
-                background: cell.isCurrentMonth ? 'var(--bg-subtle)' : 'transparent',
-                opacity: cell.isCurrentMonth ? 1 : 0.4,
-                borderRadius: 'var(--radius-sm)',
-                border: cell.isToday
-                  ? '2px solid var(--primary)'
-                  : '1px solid var(--border-color)',
-                display: 'flex',
-                flexDirection: 'column',
-                transition: 'background var(--transition)',
-              }}
-            >
-              {/* Day header inside cell */}
+      {/* Unified grid: weekday header + day cells share one bordered frame */}
+      <div className="dash-week-scroll">
+        <div style={{ minWidth: '700px', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+          {/* Weekday headers */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
+              background: 'var(--bg-subtle)',
+              borderBottom: '1px solid var(--border-color)',
+            }}
+          >
+            {daysOfWeek.map((day) => (
               <div
+                key={day}
                 style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '6px',
+                  padding: '10px 0',
+                  textAlign: 'center',
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: 'var(--text-muted)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
                 }}
               >
-                <span
+                {day}
+              </div>
+            ))}
+          </div>
+
+          {/* Days Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(0, 1fr))' }}>
+            {calendarCells.map((cell, idx) => {
+              const dayTasks = tasks.filter((t) => t.dueDate === cell.dateStr);
+              const visibleTasks = dayTasks.slice(0, MAX_VISIBLE_CHIPS);
+              const hiddenCount = dayTasks.length - visibleTasks.length;
+              const col = idx % 7;
+              const isLastCol = col === 6;
+              const isLastRow = idx >= calendarCells.length - 7;
+
+              return (
+                <div
+                  key={`${cell.dateStr}-${idx}`}
+                  className={cell.isCurrentMonth ? 'calendar-cell' : undefined}
                   style={{
-                    fontSize: '0.8rem',
-                    fontWeight: cell.isToday ? 800 : 600,
-                    color: cell.isToday ? 'var(--primary)' : 'var(--text-main)',
+                    minHeight: '104px',
+                    minWidth: 0,
+                    padding: '7px',
+                    background: cell.isToday ? 'var(--primary-subtle)' : 'var(--bg-surface)',
+                    opacity: cell.isCurrentMonth ? 1 : 0.42,
+                    borderRight: isLastCol ? 'none' : '1px solid var(--border-color)',
+                    borderBottom: isLastRow ? 'none' : '1px solid var(--border-color)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '5px',
+                    cursor: 'default',
                   }}
                 >
-                  {cell.dayNumber}
-                </span>
-
-                {cell.isCurrentMonth && (
-                  <button
-                    className="btn btn-ghost"
-                    style={{ padding: '2px', opacity: 0.5, borderRadius: '4px' }}
-                    title={`Add task on ${cell.dateStr}`}
-                    onClick={() => onAddTaskOnDate(cell.dateStr)}
-                  >
-                    <Plus size={12} />
-                  </button>
-                )}
-              </div>
-
-              {/* Task Chips */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', overflowY: 'auto', flex: 1 }}>
-                {dayTasks.map((t) => {
-                  const color = getCategoryColor(t.category);
-                  const isDone = t.status === 'completed';
-
-                  return (
-                    <div
-                      key={t.id}
-                      onClick={() => onSelectTask(t)}
+                  {/* Day header inside cell */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span
                       style={{
-                        padding: '4px 6px',
-                        background: 'var(--bg-surface)',
-                        borderRadius: '4px',
-                        borderLeft: `3px solid ${color}`,
-                        fontSize: '0.72rem',
-                        cursor: 'pointer',
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        opacity: isDone ? 0.6 : 1,
-                        textDecoration: isDone ? 'line-through' : 'none',
-                        color: isDone ? 'var(--text-muted)' : 'var(--text-main)',
-                        boxShadow: 'var(--shadow-sm)',
+                        width: '22px',
+                        height: '22px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderRadius: '50%',
+                        fontSize: '0.78rem',
+                        fontWeight: cell.isToday ? 800 : 600,
+                        color: cell.isToday ? 'var(--primary-text)' : 'var(--text-main)',
+                        background: cell.isToday ? 'var(--primary)' : 'transparent',
                       }}
-                      title={`${t.title} (${t.priority})`}
                     >
-                      {t.title}
+                      {cell.dayNumber}
+                    </span>
+
+                    {cell.isCurrentMonth && (
+                      <button
+                        className="btn btn-ghost"
+                        style={{ padding: '2px', opacity: 0.55, borderRadius: '4px' }}
+                        title={`Add task on ${cell.dateStr}`}
+                        onClick={() => onAddTaskOnDate(cell.dateStr)}
+                      >
+                        <Plus size={12} />
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Task Chips */}
+                  {visibleTasks.length > 0 && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                      {visibleTasks.map((t) => {
+                        const color = getCategoryColor(t.category);
+                        const isDone = t.status === 'completed';
+
+                        return (
+                          <div
+                            key={t.id}
+                            onClick={() => onSelectTask(t)}
+                            style={{
+                              padding: '3px 6px',
+                              background: `color-mix(in srgb, ${color}, transparent 88%)`,
+                              borderRadius: '4px',
+                              borderLeft: `2px solid ${color}`,
+                              fontSize: '0.7rem',
+                              fontWeight: 500,
+                              cursor: 'pointer',
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              opacity: isDone ? 0.55 : 1,
+                              textDecoration: isDone ? 'line-through' : 'none',
+                              color: isDone ? 'var(--text-muted)' : 'var(--text-main)',
+                            }}
+                            title={`${t.title} (${t.priority})`}
+                          >
+                            {t.title}
+                          </div>
+                        );
+                      })}
+                      {hiddenCount > 0 && (
+                        <div style={{ fontSize: '0.66rem', color: 'var(--text-muted)', paddingLeft: '4px', fontWeight: 600 }}>
+                          +{hiddenCount} more
+                        </div>
+                      )}
                     </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );

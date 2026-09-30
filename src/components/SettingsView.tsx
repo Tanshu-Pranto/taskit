@@ -2,18 +2,19 @@
 
 import React, { useState } from 'react';
 import { UserProfile, ThemeMode, Priority, Category } from '@/types/task';
-import { 
-  User, 
-  Palette, 
-  Bell, 
-  Sliders, 
-  ShieldAlert, 
-  Save, 
-  Download, 
-  RotateCcw, 
-  Check, 
-  Sun, 
-  Moon 
+import {
+  User,
+  Palette,
+  Bell,
+  Sliders,
+  ShieldAlert,
+  Save,
+  Download,
+  RotateCcw,
+  Check,
+  Sun,
+  Moon,
+  Settings as SettingsIcon
 } from 'lucide-react';
 
 interface SettingsViewProps {
@@ -65,13 +66,30 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 32px 48px 32px' }}>
-      <div style={{ marginBottom: '24px' }}>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
-          Settings & Preferences
-        </h2>
-        <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-          Manage your account profile, theme appearance, notifications, and default task attributes.
-        </p>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+        <div
+          style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '8px',
+            background: 'var(--primary-subtle)',
+            color: 'var(--primary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexShrink: 0,
+          }}
+        >
+          <SettingsIcon size={18} />
+        </div>
+        <div>
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>
+            Settings & Preferences
+          </h2>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
+            Manage your account profile, theme appearance, notifications, and default task attributes.
+          </p>
+        </div>
       </div>
 
       <form onSubmit={handleSaveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

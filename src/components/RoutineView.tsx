@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { RoutineBlock, Weekday } from '@/types/task';
-import { Plus } from 'lucide-react';
+import { Plus, AlarmClock } from 'lucide-react';
 
 interface RoutineViewProps {
   blocks: RoutineBlock[];
@@ -51,11 +51,28 @@ export const RoutineView: React.FC<RoutineViewProps> = ({
   return (
     <div style={{ margin: '0 32px 32px 32px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', marginBottom: '18px' }}>
-        <div>
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>Weekly Routine</h2>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
-            Click any hour to add a block. Click a block to edit it.
-          </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '8px',
+              background: 'var(--primary-subtle)',
+              color: 'var(--primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+            }}
+          >
+            <AlarmClock size={18} />
+          </div>
+          <div>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>Weekly Routine</h2>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '4px 0 0 0' }}>
+              Click any hour to add a block. Click a block to edit it.
+            </p>
+          </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>

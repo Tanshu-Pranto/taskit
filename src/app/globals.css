@@ -581,6 +581,13 @@ input:focus, textarea:focus, select:focus {
   background: var(--bg-subtle);
 }
 
+.calendar-cell {
+  transition: background var(--transition);
+}
+.calendar-cell:hover {
+  background: var(--bg-card-hover) !important;
+}
+
 .toast-item {
   pointer-events: auto;
   min-width: 300px;
