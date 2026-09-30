@@ -184,7 +184,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               margin: '0 auto 36px auto',
             }}
           >
-            Organize your workload, set priorities, and take control of your day.
+            Organize your workload and take control of your day.
           </p>
 
           <div
@@ -253,9 +253,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <h2 style={{ fontSize: '2.2rem', fontWeight: 800, marginTop: '8px', letterSpacing: '-0.02em' }}>
             Everything you need to stay on track.
           </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '580px', margin: '12px auto 0 auto' }}>
-            Every tool you need to stay productive, without the bloat of overly complex enterprise software.
-          </p>
         </div>
 
         <InfiniteCardCarousel
@@ -344,7 +341,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               How It Works
             </h2>
             <p style={{ color: 'var(--text-secondary)', maxWidth: '540px', margin: '12px auto 0 auto' }}>
-              Three simple steps to regain momentum and master your daily schedule.
+              Three simple steps to get things done.
             </p>
           </div>
 
@@ -386,13 +383,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               Real-time insights on what gets done
             </h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '24px' }}>
-              Unlike traditional spreadsheets or fragmented to-do notes, Taskit correlates deadlines with priorities and subtasks. Get an instant pulse on your day without guesswork.
+              See how deadlines, priorities, and subtasks connect, at a glance.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginBottom: '32px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <CheckCircle2 size={20} color="var(--primary)" />
-                <span style={{ fontSize: '0.95rem', fontWeight: 500 }}>Live progress tracking and completion velocity</span>
+                <span style={{ fontSize: '0.95rem', fontWeight: 500 }}>Live progress tracking</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <CheckCircle2 size={20} color="var(--primary)" />
@@ -400,7 +397,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <CheckCircle2 size={20} color="var(--primary)" />
-                <span style={{ fontSize: '0.95rem', fontWeight: 500 }}>Multi-category tags for deep compartmentalization</span>
+                <span style={{ fontSize: '0.95rem', fontWeight: 500 }}>Tags and categories for every project</span>
               </div>
             </div>
 
@@ -485,7 +482,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             Transparent Plans
           </span>
           <h2 style={{ fontSize: '2.2rem', fontWeight: 800, marginTop: '8px' }}>
-            Choose the plan that fits your ambition
+            Choose the plan that fits you
           </h2>
           <p style={{ color: 'var(--text-secondary)', maxWidth: '540px', margin: '12px auto 48px auto' }}>
             Start for free. Upgrade when you need team collaboration or advanced analytics.
@@ -566,7 +563,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="card" style={{ padding: '32px', background: 'var(--bg-surface)' }}>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '6px' }}>Team</h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '20px' }}>
-                For high-velocity engineering & design teams.
+                For teams shipping fast, together.
               </p>
               <div style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: '24px' }}>
                 $16 <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 400 }}>/ seat / mo</span>
@@ -622,19 +619,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           style={{
             maxWidth: '1200px',
             margin: '0 auto',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
             gap: '40px',
             marginBottom: '48px',
           }}
         >
           {/* Brand info */}
-          <div style={{ gridColumn: 'span 2' }}>
+          <div>
             <div style={{ marginBottom: '16px' }}>
               <TaskitLogo size={30} />
             </div>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6, maxWidth: '320px' }}>
-              Plan Better. Do More. A premium, modern task manager engineered for creators, developers, and focused teams.
+              Plan Better. Do More.
             </p>
           </div>
 
@@ -648,25 +647,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
               <a href="#productivity" style={{ color: 'inherit', textDecoration: 'none' }}>Productivity</a>
             </div>
           </div>
-
-          <div>
-            <h4 style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '16px' }}>Company</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              <a href="#about" style={{ color: 'inherit', textDecoration: 'none' }}>About Us</a>
-              <a href="#careers" style={{ color: 'inherit', textDecoration: 'none' }}>Careers</a>
-              <a href="#blog" style={{ color: 'inherit', textDecoration: 'none' }}>Blog</a>
-              <a href="#press" style={{ color: 'inherit', textDecoration: 'none' }}>Press Kit</a>
-            </div>
-          </div>
-
-          <div>
-            <h4 style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: '16px' }}>Legal</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              <a href="#privacy" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy Policy</a>
-              <a href="#terms" style={{ color: 'inherit', textDecoration: 'none' }}>Terms of Service</a>
-              <a href="#security" style={{ color: 'inherit', textDecoration: 'none' }}>Security</a>
-            </div>
-          </div>
         </div>
 
         <div
@@ -675,17 +655,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             margin: '0 auto',
             paddingTop: '24px',
             borderTop: '1px solid var(--border-color)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '12px',
             fontSize: '0.8rem',
             color: 'var(--text-muted)',
           }}
         >
-          <div>© {new Date().getFullYear()} Taskit. All rights reserved.</div>
-          <div>Designed with Next.js 16, React 19 & Vanilla CSS</div>
+          © {new Date().getFullYear()} Taskit. All rights reserved.
         </div>
       </footer>
     </div>
