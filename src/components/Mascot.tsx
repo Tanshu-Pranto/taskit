@@ -51,7 +51,12 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
       viewBox="0 0 200 220"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ display: 'block', animation: animate ? 'mascotBob 3.2s ease-in-out infinite' : undefined, ...style }}
+      style={{
+        display: 'block',
+        transformOrigin: 'center',
+        animation: animate ? 'mascotBob 3.2s ease-in-out infinite' : undefined,
+        ...style,
+      }}
       role="img"
       aria-label="Taskit flame mascot"
     >
@@ -118,6 +123,13 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
       <path d="M26 94c6 5 6 13 0 17-6-4-6-12 0-17Z" fill={`url(#${headGrad})`} opacity="0.9" />
       <path d="M172 76c5 4 5 11 0 15-5-4-5-11 0-15Z" fill={`url(#${headGrad})`} opacity="0.9" />
 
+      {/* Trailing tail wisp, curling off the lower-right of the flame */}
+      <path
+        d="M140 130c14 4 20 18 12 32-6 10-4 20 4 26-16 2-28-10-28-26 0-12 4-24 12-32Z"
+        fill={`url(#${headGrad})`}
+        opacity="0.92"
+      />
+
       {/* Arms — a capsule limb plus a round hand, so a raised arm reads
           clearly as a hand rather than blending into the flame behind it.
           Rotated as one rigid group around the shoulder pivot. */}
@@ -134,29 +146,37 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
       <ellipse cx="65" cy="132" rx="9" ry="5.5" fill="#ff5a3c" opacity="0.5" />
       <ellipse cx="135" cy="132" rx="9" ry="5.5" fill="#ff5a3c" opacity="0.5" />
 
+      {/* Eyebrows — give the face some attitude */}
+      <path d="M69 101c4-6 13-6 17-1" stroke="#7a2e10" strokeWidth="5" strokeLinecap="round" fill="none" />
+      <path d="M114 100c4-5 13-5 17 1" stroke="#7a2e10" strokeWidth="5" strokeLinecap="round" fill="none" />
+
       {/* Face */}
       {mood === 'happy' ? (
         <>
           <g>
-            <ellipse cx="80" cy="120" rx="10" ry="13" fill="#241206" />
-            <ellipse cx="120" cy="120" rx="10" ry="13" fill="#241206" />
-            <circle cx="83.5" cy="114" r="3" fill="#ffffff" />
-            <circle cx="123.5" cy="114" r="3" fill="#ffffff" />
+            <ellipse cx="80" cy="121" rx="12" ry="15" fill="#fff8ef" stroke="#7a2e10" strokeWidth="2" />
+            <ellipse cx="120" cy="121" rx="12" ry="15" fill="#fff8ef" stroke="#7a2e10" strokeWidth="2" />
+            <circle cx="81" cy="123" r="7" fill="#2a1608" />
+            <circle cx="121" cy="123" r="7" fill="#2a1608" />
+            <circle cx="84" cy="118" r="2.6" fill="#ffffff" />
+            <circle cx="124" cy="118" r="2.6" fill="#ffffff" />
           </g>
-          <path d="M84 138c6 8 26 8 32 0" stroke="#241206" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M84 134c3 11 14 15 16 15s13-4 16-15c-6 8-26 8-32 0Z" fill="#2a1608" />
         </>
       ) : (
         <>
-          <path d="M71 119c5-4 14-4 19 0" stroke="#241206" strokeWidth="5" strokeLinecap="round" fill="none" />
-          <path d="M110 119c5-4 14-4 19 0" stroke="#241206" strokeWidth="5" strokeLinecap="round" fill="none" />
-          <path d="M90 136c4 5 16 5 20 0" stroke="#241206" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M71 119c5-4 14-4 19 0" stroke="#2a1608" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M110 119c5-4 14-4 19 0" stroke="#2a1608" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M90 136c4 5 16 5 20 0" stroke="#2a1608" strokeWidth="5" strokeLinecap="round" fill="none" />
         </>
       )}
 
       <style>{`
         @keyframes mascotBob {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+          0%, 100% { transform: translateY(0) scale(1, 1); }
+          30% { transform: translateY(-10px) scale(0.97, 1.05); }
+          50% { transform: translateY(-13px) scale(1.02, 0.97); }
+          72% { transform: translateY(-5px) scale(0.99, 1.02); }
         }
         @media (prefers-reduced-motion: reduce) {
           svg { animation: none !important; }
