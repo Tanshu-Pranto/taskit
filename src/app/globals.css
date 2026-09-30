@@ -51,21 +51,21 @@
   --priority-high: #fbbf24;
   --priority-urgent: #ff3b30;
 
-  /* Cardboard priority boxes (hero) — anchored on the requested #a97835.
-     Kept as bright as the light theme: a cardboard box doesn't change color
-     just because the page around it went dark, only the UI does. */
-  --box-top-1: #d9b06a;
-  --box-top-2: #c49952;
-  --box-top-3: #a97835;
-  --box-front-1: #c49952;
-  --box-front-2: #a97835;
-  --box-front-3: #8a611f;
-  --box-side-1: #8a611f;
-  --box-side-2: #6e4d19;
-  --box-side-3: #543a12;
-  --box-interior: #120904;
-  --box-label: #e8dcc0;
-  --box-label-text: #1a130c;
+  /* Premium obsidian priority boxes (hero) — matte near-black faces lit by
+     the priority's own accent color, not the page theme, so the box reads
+     the same in light and dark mode. */
+  --box-top-1: #3c3c41;
+  --box-top-2: #232326;
+  --box-top-3: #121214;
+  --box-front-1: #2d2d31;
+  --box-front-2: #18181b;
+  --box-front-3: #08080a;
+  --box-side-1: #19191c;
+  --box-side-2: #0d0d0f;
+  --box-side-3: #030304;
+  --box-interior: #030303;
+  --box-label: #f5f4f2;
+  --box-label-text: #f5f4f2;
 
   /* Shadows & Radius */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -122,19 +122,20 @@
   --accent-gradient: linear-gradient(135deg, #eb5a22 0%, #b23a0f 100%);
   --growth-gradient: linear-gradient(135deg, #ff8a3d 0%, #ffe3d1 100%);
 
-  /* Cardboard priority boxes (hero) — anchored on the requested #a97835 */
-  --box-top-1: #d9b06a;
-  --box-top-2: #c49952;
-  --box-top-3: #a97835;
-  --box-front-1: #c49952;
-  --box-front-2: #a97835;
-  --box-front-3: #8a611f;
-  --box-side-1: #8a611f;
-  --box-side-2: #6e4d19;
-  --box-side-3: #543a12;
-  --box-interior: #2b1710;
-  --box-label: #f3e9d1;
-  --box-label-text: #241b12;
+  /* Premium obsidian priority boxes (hero) — same near-black material in
+     both themes; see :root for rationale. */
+  --box-top-1: #3c3c41;
+  --box-top-2: #232326;
+  --box-top-3: #121214;
+  --box-front-1: #2d2d31;
+  --box-front-2: #18181b;
+  --box-front-3: #08080a;
+  --box-side-1: #19191c;
+  --box-side-2: #0d0d0f;
+  --box-side-3: #030304;
+  --box-interior: #030303;
+  --box-label: #f5f4f2;
+  --box-label-text: #f5f4f2;
 
   --shadow-sm: 0 2px 6px rgba(20, 14, 10, 0.04);
   --shadow-md: 0 8px 20px rgba(20, 14, 10, 0.06);
@@ -640,7 +641,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Accurate open-carton illustration: the SVG owns the geometry; HTML overlays
    only provide priority status and remain out of the way of the box shape. */
-.paper-box { width: min(282px, 28vw); aspect-ratio: 300 / 230; height: auto; transform: none; filter: drop-shadow(0 18px 12px rgba(0,0,0,.32)); }
+.paper-box { width: min(282px, 28vw); aspect-ratio: 300 / 230; height: auto; transform: none; filter: drop-shadow(0 18px 12px rgba(0,0,0,.32)) drop-shadow(0 10px 16px color-mix(in srgb, var(--box-color), transparent 68%)); transition: filter .25s ease; }
 .paper-box::before, .paper-box::after { display: none; }
 .paper-box-illustration { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; }
 .paper-box-closed, .paper-box-open { transform-origin: 50% 55%; transition: opacity .22s ease, transform .32s cubic-bezier(.22,1,.36,1); }
@@ -654,7 +655,7 @@ input:focus, textarea:focus, select:focus {
 .paper-box-label { display: block; padding: 0 0 0 17px; background: transparent; color: #2b2015; font-size: .55rem; transform: none; }
 .paper-box-count { display: block; margin: -1px 0 0; padding-left: 17px; color: #6b5340; font-size: .52rem; text-shadow: none; }
 .paper-box-dot { display: block; left: 6px; right: auto; top: 8px; bottom: auto; width: 10px; height: 10px; box-shadow: 0 0 7px var(--box-color); }
-.paper-box-active { transform: translateY(-9px) scale(1.025); filter: drop-shadow(0 24px 15px rgba(0,0,0,.42)) drop-shadow(0 0 12px color-mix(in srgb, var(--box-color), transparent 54%)); }
+.paper-box-active { transform: translateY(-9px) scale(1.025); filter: drop-shadow(0 24px 15px rgba(0,0,0,.42)) drop-shadow(0 0 18px color-mix(in srgb, var(--box-color), transparent 40%)); }
 .paper-box:not(.paper-box-active):not(.paper-box-bounce) { animation: none; }
 @keyframes paperBoxBounce { 0%,100% { transform: none; } 45% { transform: translateY(-12px) scale(1.04); } }
 @media (max-width: 640px) { .paper-stage { min-height: 565px; } .paper-boxes { bottom: 14px; } .paper-box { width: 31vw; height: auto; } .paper-box-opening { top: 40%; height: 16px; font-size: .4rem; } }

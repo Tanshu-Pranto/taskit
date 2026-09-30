@@ -109,19 +109,25 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
                 <stop offset="50%" stopColor="#ffffff" stopOpacity=".55" />
                 <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
               </linearGradient>
-              {/* Soft two-layer contact shadow: a warm inner glow plus a broad neutral falloff */}
+              {/* Soft two-layer contact shadow: a colored ground bounce plus a broad neutral falloff */}
               <radialGradient id={`shadow-warm-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#3a1c0c" stopOpacity=".32" />
-                <stop offset="100%" stopColor="#3a1c0c" stopOpacity="0" />
+                <stop offset="0%" stopColor={priority.color} stopOpacity=".4" />
+                <stop offset="100%" stopColor={priority.color} stopOpacity="0" />
               </radialGradient>
               <radialGradient id={`shadow-soft-${priority.key}`} cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#000000" stopOpacity=".2" />
                 <stop offset="100%" stopColor="#000000" stopOpacity="0" />
               </radialGradient>
-              <radialGradient id={`dot-glow-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor={priority.color} stopOpacity=".55" />
+              <radialGradient id={`mark-glow-${priority.key}`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor={priority.color} stopOpacity=".5" />
                 <stop offset="100%" stopColor={priority.color} stopOpacity="0" />
               </radialGradient>
+              <clipPath id={`side-clip-${priority.key}`}>
+                <polygon points="195,100 250,65 250,195 195,230" />
+              </clipPath>
+              <clipPath id={`front-clip-${priority.key}`}>
+                <polygon points="50,100 195,100 195,230 50,230" />
+              </clipPath>
             </defs>
             <g className="paper-box-closed">
               <ellipse cx="150" cy="238" rx="82" ry="9" fill={`url(#shadow-warm-${priority.key})`} />
@@ -132,10 +138,6 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
               <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(30,18,9,.28)" strokeWidth="1.25" />
               {/* Highlight catching the overhead light along the lid's outer edge */}
               <path d="M250 65 L105 65 L50 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
-              {/* Fold-crease marks on the lid */}
-              <path d="M150 78 L165 72 M172 76 L184 70" stroke="rgba(255,250,238,.55)" strokeWidth="2" strokeLinecap="round" />
-              {/* Crumpled paper accent, bottom-right */}
-              <path d="M212 210 q6 5 3 12 M223 206 q7 4 4 12" fill="none" stroke="rgba(40,26,14,.28)" strokeWidth="1.4" strokeLinecap="round" />
             </g>
             <g className="paper-box-open">
               <ellipse cx="150" cy="230" rx="80" ry="9" fill={`url(#shadow-warm-${priority.key})`} />
@@ -152,24 +154,21 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
               {/* Hand-hold die-cut */}
               <ellipse cx="184" cy="207" rx="7" ry="10" fill="rgba(20,10,5,.4)" />
             </g>
-            {/* Priority dot, glowing, sitting clear above the label */}
-            <circle cx="153" cy="141" r="16" fill={`url(#dot-glow-${priority.key})`} />
-            <circle cx="153" cy="141" r="9.5" fill={priority.color} />
-            {/* Torn-paper priority label, taped across most of the front face, near the bottom */}
-            <g transform="translate(56 172) rotate(-2)">
-              <polygon
-                points="0,7 7,0 123,4 129,12 126,49 120,54 4,51 0,43"
-                fill="var(--box-label)"
-                stroke="rgba(40,26,14,.14)"
-                strokeWidth=".75"
-              />
-              {/* Tape patches holding the paper down at each end */}
-              <rect x="2" y="2" width="16" height="48" fill="#ffffff" opacity=".14" />
-              <rect x="110" y="2" width="16" height="48" fill="#ffffff" opacity=".14" />
-              <text x="10" y="27" fill="var(--box-label-text)" fontSize="12.5" fontWeight="800">
-                {priority.label.toUpperCase()}
+            {/* Bold color mark bleeding off the side face, like a premium brand plate */}
+            <g clipPath={`url(#side-clip-${priority.key})`}>
+              <circle cx="228" cy="130" r="62" fill={`url(#mark-glow-${priority.key})`} />
+              <circle cx="224" cy="150" r="32" fill={priority.color} />
+              <circle cx="238" cy="126" r="15" fill="var(--box-side-3)" />
+            </g>
+            {/* Priority copy set flush on the front face, no label chip */}
+            <g clipPath={`url(#front-clip-${priority.key})`}>
+              <text x="62" y="120" fill="rgba(245,244,242,.48)" fontSize="7" fontWeight="700" letterSpacing="2">
+                — PRIORITY
               </text>
-              <text x="10" y="42" fill="var(--box-label-text)" fontSize="7.5" fontWeight="600" opacity=".6">
+              <text x="61" y="151" fill="var(--box-label-text)" fontSize="19" fontWeight="800">
+                {priority.label.split(' ')[0].toUpperCase()}
+              </text>
+              <text x="62" y="213" fill={priority.color} fontSize="12" fontWeight="800">
                 {counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}
               </text>
             </g>
