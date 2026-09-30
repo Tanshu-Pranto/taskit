@@ -70,41 +70,27 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
       aria-label="Taskit flame mascot"
     >
       <defs>
-        <linearGradient id={headGrad} x1="18%" y1="0%" x2="88%" y2="100%">
-          <stop offset="0%" stopColor="#fffbe6" />
-          <stop offset="20%" stopColor="#ffe08a" />
-          <stop offset="45%" stopColor="#ff9d3d" />
-          <stop offset="72%" stopColor="#ff5722" />
-          <stop offset="100%" stopColor="#a3220a" />
+        <linearGradient id={headGrad} x1="20%" y1="0%" x2="85%" y2="100%">
+          <stop offset="0%" stopColor="#fff3b0" />
+          <stop offset="32%" stopColor="#ffb04d" />
+          <stop offset="68%" stopColor="#ff6b35" />
+          <stop offset="100%" stopColor="#c22f0f" />
         </linearGradient>
-        <linearGradient id={bodyGrad} x1="26%" y1="0%" x2="74%" y2="100%">
-          <stop offset="0%" stopColor="#ffb666" />
-          <stop offset="55%" stopColor="#ff7a2e" />
-          <stop offset="100%" stopColor="#c23b12" />
+        <linearGradient id={bodyGrad} x1="30%" y1="0%" x2="70%" y2="100%">
+          <stop offset="0%" stopColor="#ffa24d" />
+          <stop offset="100%" stopColor="#d9481a" />
         </linearGradient>
         <radialGradient id={glow} cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#ff6b35" stopOpacity="0.55" />
           <stop offset="100%" stopColor="#ff6b35" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={sheen} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.75" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id={`${sheen}-hot`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.95" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.7" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={faceGlow} cx="50%" cy="50%" r="50%">
           <stop offset="0%" stopColor="#fff6d4" stopOpacity="0.9" />
           <stop offset="100%" stopColor="#fff6d4" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id={`${bodyGrad}-hi`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-        </radialGradient>
-        <radialGradient id={`${bodyGrad}-shade`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#5c0f02" stopOpacity="0.5" />
-          <stop offset="100%" stopColor="#5c0f02" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -118,10 +104,9 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
       <ellipse cx="80" cy="196" rx="14" ry="10" fill={`url(#${bodyGrad})`} />
       <ellipse cx="120" cy="196" rx="14" ry="10" fill={`url(#${bodyGrad})`} />
 
-      {/* Rounded body — base fill, underside occlusion, then top specular for a glossy-plastic read */}
+      {/* Rounded body */}
       <ellipse cx="100" cy="172" rx="34" ry="30" fill={`url(#${bodyGrad})`} />
-      <ellipse cx="104" cy="186" rx="26" ry="16" fill={`url(#${bodyGrad}-shade)`} />
-      <ellipse cx="88" cy="158" rx="12" ry="8" fill={`url(#${bodyGrad}-hi)`} />
+      <ellipse cx="88" cy="160" rx="9" ry="6" fill="#ffffff" opacity="0.22" />
 
       {/* Main flame head — three-peak crown */}
       <path
@@ -137,21 +122,13 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
            C 164 62 158 84 158 108
            C 158 146 134 172 100 172 Z"
         fill={`url(#${headGrad})`}
-        stroke="#fff3c4"
-        strokeOpacity="0.25"
-        strokeWidth="2"
-        strokeLinejoin="round"
       />
-
-      {/* Underside occlusion shading for volume, clipped roughly to the lower flame body */}
-      <ellipse cx="108" cy="150" rx="46" ry="34" fill={`url(#${bodyGrad}-shade)`} opacity="0.6" />
 
       {/* Soft warm glow behind the face */}
       <ellipse cx="100" cy="128" rx="48" ry="46" fill={`url(#${faceGlow})`} />
 
-      {/* Glossy highlight on the flame — broad soft sheen plus a tight hot catchlight */}
-      <ellipse cx="74" cy="46" rx="22" ry="34" fill={`url(#${sheen})`} transform="rotate(-16 74 46)" />
-      <ellipse cx="66" cy="34" rx="7" ry="11" fill={`url(#${sheen}-hot)`} transform="rotate(-20 66 34)" />
+      {/* Glossy highlight on the flame */}
+      <ellipse cx="76" cy="52" rx="20" ry="30" fill={`url(#${sheen})`} transform="rotate(-16 76 52)" />
 
       {/* Small floating spark droplets, clear of the head silhouette */}
       <path d="M20 90c6 5 6 13 0 17-6-4-6-12 0-17Z" fill={`url(#${headGrad})`} opacity="0.9" />
