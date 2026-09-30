@@ -29,12 +29,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Taskit Team" }],
   icons: {
-    icon: [
-      { url: "/mascot-icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: "/mascot-icon.svg",
+    icon: "/favicon.ico",
   },
 };
 

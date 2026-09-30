@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { ThemeMode } from '@/types/task';
 import { TaskitLogo } from './TaskitLogo';
-import { Mascot } from './Mascot';
 import { HeroPriorityScene } from './HeroPriorityScene';
 import { InfiniteCardCarousel } from './InfiniteCardCarousel';
 import { StreamlinedFlow } from './StreamlinedFlow';
@@ -123,6 +122,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           position: 'relative',
           padding: '90px 24px 70px 24px',
           overflow: 'hidden',
+          textAlign: 'center',
         }}
       >
         {/* Subtle Background Glow */}
@@ -140,82 +140,78 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           }}
         />
 
-        <div className="hero-grid" style={{ maxWidth: '1140px', margin: '0 auto 60px auto', position: 'relative', zIndex: 1 }}>
-          <div className="hero-text">
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--primary-subtle)',
-                color: 'var(--primary)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                marginBottom: '24px',
-                border: '1px solid var(--border-focus)',
-              }}
-            >
-              <Sparkles size={14} />
-              <span style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Your Productivity, Your Way
-              </span>
-            </div>
-
-            <h1
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 3.6rem)',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
-                marginBottom: '20px',
-              }}
-            >
-              Turn Your Tasks<br />
-              Into <span style={{ color: 'var(--primary)' }}>Progress.</span>
-            </h1>
-
-            <p
-              style={{
-                fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.6,
-                maxWidth: '480px',
-                margin: '0 0 36px 0',
-              }}
-            >
-              Organize your workload and take control of your day.
-            </p>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '14px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <button
-                className="btn btn-primary"
-                style={{ padding: '12px 24px', fontSize: '1rem', fontWeight: 600 }}
-                onClick={onEnterDashboard}
-              >
-                Get Started — It&apos;s Free
-                <ArrowRight size={18} />
-              </button>
-              <a
-                href="#features"
-                className="btn btn-secondary"
-                style={{ padding: '12px 24px', fontSize: '1rem' }}
-              >
-                Explore Taskit
-              </a>
-            </div>
+        <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--primary-subtle)',
+              color: 'var(--primary)',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              marginBottom: '24px',
+              border: '1px solid var(--border-focus)',
+            }}
+          >
+            <Sparkles size={14} />
+            <span style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Your Productivity, Your Way
+            </span>
           </div>
 
-          <div className="hero-visual">
-            <Mascot size={320} pose="wave" animate />
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontWeight: 800,
+              lineHeight: 1.15,
+              letterSpacing: '-0.03em',
+              marginBottom: '20px',
+            }}
+          >
+            Turn Your Tasks<br />
+            Into <span style={{ color: 'var(--primary)' }}>Progress.</span>
+          </h1>
+
+          <p
+            style={{
+              fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.6,
+              maxWidth: '680px',
+              margin: '0 auto 36px auto',
+            }}
+          >
+            Organize your workload and take control of your day.
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '14px',
+              flexWrap: 'wrap',
+              marginBottom: '50px',
+            }}
+          >
+            <button
+              className="btn btn-primary"
+              style={{ padding: '12px 24px', fontSize: '1rem', fontWeight: 600 }}
+              onClick={onEnterDashboard}
+            >
+              Get Started — It&apos;s Free
+              <ArrowRight size={18} />
+            </button>
+            <a
+              href="#features"
+              className="btn btn-secondary"
+              style={{ padding: '12px 24px', fontSize: '1rem' }}
+            >
+              Explore Taskit
+            </a>
           </div>
         </div>
 
@@ -330,7 +326,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
-            <Mascot size={90} pose="point" style={{ margin: '0 auto 12px auto' }} />
             <span
               style={{
                 fontSize: '0.8rem',
@@ -595,7 +590,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           margin: '0 auto',
         }}
       >
-        <Mascot size={130} pose="cheer" animate style={{ margin: '0 auto 20px auto' }} />
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px' }}>
           Take control of your day.
         </h2>

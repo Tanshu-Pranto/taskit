@@ -10,8 +10,8 @@ import {
   Trash2,
   Plus,
   AlertCircle,
+  Inbox,
 } from 'lucide-react';
-import { Mascot } from './Mascot';
 
 interface ListViewProps {
   tasks: Task[];
@@ -59,7 +59,21 @@ export const ListView: React.FC<ListViewProps> = ({
           justifyContent: 'center',
         }}
       >
-        <Mascot size={88} mood="sleepy" style={{ marginBottom: '12px' }} />
+        <div
+          style={{
+            width: '56px',
+            height: '56px',
+            borderRadius: '16px',
+            background: 'var(--bg-subtle)',
+            color: 'var(--text-muted)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '16px',
+          }}
+        >
+          <Inbox size={28} />
+        </div>
         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '6px' }}>
           No tasks yet
         </h3>

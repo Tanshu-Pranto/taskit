@@ -703,38 +703,6 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Hero — mascot beside the headline (Duolingo-style), not on top of it.
-   Text comes first in the DOM (so it's never "mascot over text" even
-   stacked on mobile); order flips the visual column to the left on
-   desktop only. */
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 40px;
-  text-align: left;
-}
-.hero-grid .hero-visual {
-  order: 1;
-  display: flex;
-  justify-content: center;
-}
-.hero-grid .hero-text {
-  order: 2;
-}
-@media (max-width: 860px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .hero-grid .hero-text {
-    order: 1;
-  }
-  .hero-grid .hero-visual {
-    order: 2;
-  }
-}
-
 .routine-hour-cell:hover {
   background: var(--bg-subtle);
 }
