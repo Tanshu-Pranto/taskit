@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Geist_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -12,6 +12,14 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Handwritten-style accent font for playful annotations beside the mascot
+const caveat = Caveat({
+  variable: "--font-handwritten",
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -39,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${geistMono.variable}`} data-theme="dark">
+    <html lang="en" className={`${plusJakartaSans.variable} ${geistMono.variable} ${caveat.variable}`} data-theme="dark">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
