@@ -63,11 +63,8 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               gap: '6px',
             }}
           >
-            <span>{getGreeting()}{userName ? `, ${userName.split(' ')[0]}` : ''} 👋</span>
+            <span>{getGreeting()}{userName ? `, ${userName.split(' ')[0]}` : ''}</span>
           </h1>
-          <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', margin: '2px 0 0 0' }}>
-            Here&apos;s what you need to accomplish today.
-          </p>
         </div>
       </div>
 
