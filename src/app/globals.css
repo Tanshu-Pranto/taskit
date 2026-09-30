@@ -719,9 +719,10 @@ input:focus, textarea:focus, select:focus {
   transform: scale(1.06);
 }
 .flow-step.is-done .flow-step-dot {
-  background: rgba(34, 197, 94, 0.15);
-  border-color: rgba(34, 197, 94, 0.4);
-  color: #22c55e;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-text);
+  box-shadow: var(--primary-glow-soft);
 }
 
 .flow-step-body { padding-top: 4px; }

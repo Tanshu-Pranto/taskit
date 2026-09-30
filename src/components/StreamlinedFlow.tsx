@@ -110,7 +110,7 @@ export const StreamlinedFlow: React.FC = () => {
                   key={s.step}
                   className={`flow-step ${isActive ? 'is-active' : ''} ${isDone ? 'is-done' : ''}`}
                 >
-                  <div className="flow-step-dot">{isDone ? <Check size={16} /> : s.icon}</div>
+                  <div className="flow-step-dot">{s.icon}</div>
                   <div className="flow-step-body">
                     <div className="flow-step-index">{s.step}</div>
                     <h3>{s.title}</h3>
