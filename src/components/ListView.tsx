@@ -100,12 +100,16 @@ export const ListView: React.FC<ListViewProps> = ({
         background: 'var(--bg-surface)',
       }}
     >
+      {/* Below ~760px the fixed columns no longer fit — scroll the table
+          horizontally instead of letting the title column collapse to 0
+          and let its tags overflow onto the columns beside it. */}
+      <div style={{ overflowX: 'auto' }}>
       {/* Table Header */}
       <div
         className="hide-mobile"
         style={{
           display: 'grid',
-          gridTemplateColumns: '40px 1fr 130px 110px 140px 110px 90px',
+          gridTemplateColumns: '40px minmax(180px, 1fr) 130px 110px 140px 110px 90px',
           gap: '12px',
           padding: '12px 20px',
           background: 'var(--bg-subtle)',
@@ -115,6 +119,7 @@ export const ListView: React.FC<ListViewProps> = ({
           color: 'var(--text-muted)',
           textTransform: 'uppercase',
           letterSpacing: '0.5px',
+          minWidth: '760px',
         }}
       >
         <div></div>
@@ -139,7 +144,7 @@ export const ListView: React.FC<ListViewProps> = ({
               className="card-interactive"
               style={{
                 display: 'grid',
-                gridTemplateColumns: '40px 1fr 130px 110px 140px 110px 90px',
+                gridTemplateColumns: '40px minmax(180px, 1fr) 130px 110px 140px 110px 90px',
                 gap: '12px',
                 alignItems: 'center',
                 padding: '14px 20px',
@@ -147,6 +152,7 @@ export const ListView: React.FC<ListViewProps> = ({
                 background: isDone ? 'var(--bg-subtle)' : 'var(--bg-surface)',
                 opacity: isDone ? 0.75 : 1,
                 cursor: 'pointer',
+                minWidth: '760px',
               }}
               onClick={() => onSelectTask(task)}
             >
@@ -299,6 +305,7 @@ export const ListView: React.FC<ListViewProps> = ({
             </div>
           );
         })}
+      </div>
       </div>
     </div>
   );

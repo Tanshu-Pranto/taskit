@@ -143,7 +143,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
+          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
           borderBottom: '1px solid var(--border-color)',
           paddingBottom: '8px',
           marginBottom: '8px',
@@ -164,7 +164,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(7, 1fr)',
+          gridTemplateColumns: 'repeat(7, minmax(0, 1fr))',
           gap: '6px',
         }}
       >
@@ -176,6 +176,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
               key={`${cell.dateStr}-${idx}`}
               style={{
                 minHeight: '110px',
+                minWidth: 0,
                 padding: '8px',
                 background: cell.isCurrentMonth ? 'var(--bg-subtle)' : 'transparent',
                 opacity: cell.isCurrentMonth ? 1 : 0.4,

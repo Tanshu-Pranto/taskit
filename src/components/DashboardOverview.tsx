@@ -112,7 +112,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
           </button>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px' }}>
+        <div className="dash-week-scroll">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(96px, 1fr))', gap: '8px', minWidth: '620px' }}>
           {weekDays.map((day, i) => {
             const isToday = day.dateStr === todayDate;
             const dayTasks = tasksByDay.get(day.dateStr) || [];
@@ -176,10 +177,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             );
           })}
         </div>
+        </div>
       </div>
 
       {/* Focus, This Week, Categories */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr)', gap: '20px' }}>
+      <div className="dash-focus-row">
         {/* Focus — the single highest-priority open task */}
         <div className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
           <div style={{ width: '100%', textAlign: 'left', fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '6px' }}>
@@ -228,7 +230,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
         <div className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div style={{ fontSize: '0.78rem', fontWeight: 600, color: 'var(--text-secondary)' }}>This Week</div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap' }}>
               <span style={{ fontSize: '1.8rem', fontWeight: 800, letterSpacing: '-0.02em' }}>{weeklyPct}%</span>
               <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                 {completed.length} of {tasks.length} done

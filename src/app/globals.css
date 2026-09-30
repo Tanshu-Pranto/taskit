@@ -560,6 +560,23 @@ input:focus, textarea:focus, select:focus {
   pointer-events: none;
 }
 
+/* Dashboard overview — the weekly strip scrolls horizontally rather than
+   squeezing 7 columns into overlap, and the 3-card focus row stacks to a
+   single column once it can no longer fit each card's content. */
+.dash-week-scroll {
+  overflow-x: auto;
+}
+.dash-focus-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 20px;
+}
+@media (max-width: 860px) {
+  .dash-focus-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .toast-item {
   pointer-events: auto;
   min-width: 300px;

@@ -441,7 +441,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             </div>
 
             {/* Quick stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '12px' }}>
               <div style={{ padding: '14px', background: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)' }}>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Tasks</div>
                 <div style={{ fontSize: '1.3rem', fontWeight: 700 }}>24</div>
