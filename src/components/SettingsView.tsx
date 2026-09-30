@@ -40,6 +40,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   const [role, setRole] = useState(user.role);
   const [avatar, setAvatar] = useState(user.avatar);
   const [notificationsEnabled, setNotificationsEnabled] = useState(user.notificationsEnabled);
+  const [emailRemindersEnabled, setEmailRemindersEnabled] = useState(user.emailRemindersEnabled);
   const [defaultPriority, setDefaultPriority] = useState<Priority>(user.defaultPriority || 'medium');
   const [defaultCategory, setDefaultCategory] = useState(user.defaultCategory || 'Work');
   const [savedSuccess, setSavedSuccess] = useState(false);
@@ -53,6 +54,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
       role,
       avatar,
       notificationsEnabled,
+      emailRemindersEnabled,
       defaultPriority,
       defaultCategory,
       theme,
@@ -248,19 +250,38 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Notifications</h3>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>Enable Task Reminders & Alerts</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                Receive pop-up toast reminders when tasks reach scheduled time.
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>In-app reminders</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  Get a notification and toast when a high-priority task is due tomorrow or today.
+                </div>
               </div>
+              <input
+                type="checkbox"
+                checked={notificationsEnabled}
+                onChange={(e) => setNotificationsEnabled(e.target.checked)}
+                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+              />
             </div>
-            <input
-              type="checkbox"
-              checked={notificationsEnabled}
-              onChange={(e) => setNotificationsEnabled(e.target.checked)}
-              style={{ width: '18px', height: '18px', cursor: 'pointer' }}
-            />
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '18px', borderTop: '1px solid var(--border-color)' }}>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                  Email me too <span className="badge badge-todo" style={{ marginLeft: '6px' }}>Coming soon</span>
+                </div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                  Also send these as email. This needs an email provider connected on the server, so it&apos;s off for now — your preference is saved and will take effect once that&apos;s wired up.
+                </div>
+              </div>
+              <input
+                type="checkbox"
+                checked={emailRemindersEnabled}
+                onChange={(e) => setEmailRemindersEnabled(e.target.checked)}
+                style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+              />
+            </div>
           </div>
         </div>
 

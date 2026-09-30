@@ -577,6 +577,10 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
+.routine-hour-cell:hover {
+  background: var(--bg-subtle);
+}
+
 .toast-item {
   pointer-events: auto;
   min-width: 300px;

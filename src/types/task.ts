@@ -33,15 +33,28 @@ export interface Category {
 
 export type ViewMode = 'list' | 'kanban' | 'calendar';
 
-export type ActiveTab = 
+export type ActiveTab =
   | 'dashboard'
   | 'tasks'
   | 'today'
   | 'upcoming'
   | 'calendar'
   | 'completed'
+  | 'routine'
   | 'categories'
   | 'settings';
+
+export type Weekday = 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun';
+
+export interface RoutineBlock {
+  id: string;
+  day: Weekday;
+  startTime: string; // "HH:MM", 24-hour
+  endTime: string; // "HH:MM", 24-hour, after startTime on the same day
+  title: string;
+  priority: Priority;
+  notes?: string;
+}
 
 export type ThemeMode = 'dark' | 'light';
 
@@ -63,6 +76,7 @@ export interface UserProfile {
   role: string;
   theme: ThemeMode;
   notificationsEnabled: boolean;
+  emailRemindersEnabled: boolean;
   defaultPriority: Priority;
   defaultCategory: string;
 }

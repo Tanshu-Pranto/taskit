@@ -1,4 +1,4 @@
-import { Task, Category, UserProfile } from '@/types/task';
+import { Task, Category, UserProfile, RoutineBlock } from '@/types/task';
 
 // The app's simulated "today" — every seeded due date, sort and overdue check
 // is anchored to this instead of the real clock, so the demo data stays coherent.
@@ -19,9 +19,22 @@ export const INITIAL_USER: UserProfile = {
   role: 'Product Lead',
   theme: 'dark',
   notificationsEnabled: true,
+  emailRemindersEnabled: false,
   defaultPriority: 'medium',
   defaultCategory: 'Product',
 };
+
+export const DEFAULT_WAKE_TIME = '07:00';
+
+export const INITIAL_ROUTINE_BLOCKS: RoutineBlock[] = [
+  { id: 'rt-1', day: 'mon', startTime: '07:00', endTime: '07:30', title: 'Wake up & stretch', priority: 'low' },
+  { id: 'rt-2', day: 'mon', startTime: '09:00', endTime: '10:30', title: 'Chemistry Lecture', priority: 'high' },
+  { id: 'rt-3', day: 'mon', startTime: '14:00', endTime: '15:30', title: 'Study Group', priority: 'medium' },
+  { id: 'rt-4', day: 'wed', startTime: '07:00', endTime: '07:30', title: 'Wake up & stretch', priority: 'low' },
+  { id: 'rt-5', day: 'wed', startTime: '10:00', endTime: '11:30', title: 'Algorithms Lab', priority: 'urgent' },
+  { id: 'rt-6', day: 'fri', startTime: '07:00', endTime: '07:30', title: 'Wake up & stretch', priority: 'low' },
+  { id: 'rt-7', day: 'fri', startTime: '18:00', endTime: '19:00', title: 'Gym', priority: 'medium' },
+];
 
 export const INITIAL_TASKS: Task[] = [
   {

@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { Search, Plus, Bell, Menu } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Plus, Bell, Menu, AlertTriangle, Clock3 } from 'lucide-react';
+import { DeadlineReminder } from '@/lib/reminders';
 
 interface DashboardHeaderProps {
   userName: string;
@@ -9,7 +10,8 @@ interface DashboardHeaderProps {
   onSearchChange: (q: string) => void;
   onOpenNewTask: () => void;
   onOpenMobileMenu: () => void;
-  unreadCount?: number;
+  notifications: DeadlineReminder[];
+  onClearNotifications: () => void;
 }
 
 export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
@@ -18,8 +20,11 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   onSearchChange,
   onOpenNewTask,
   onOpenMobileMenu,
-  unreadCount = 2,
+  notifications,
+  onClearNotifications,
 }) => {
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Good morning';
@@ -38,6 +43,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         padding: '24px 32px 16px 32px',
         borderBottom: '1px solid var(--border-color)',
         background: 'var(--bg-app)',
+        position: 'relative',
       }}
     >
       {/* Greeting and Mobile Menu */}
@@ -104,16 +110,17 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           />
         </div>
 
-        {/* Notifications Icon */}
+        {/* Notifications */}
         <div style={{ position: 'relative' }}>
           <button
             className="btn btn-ghost"
             style={{ padding: '8px', borderRadius: 'var(--radius-sm)' }}
             title="Notifications"
+            onClick={() => setNotificationsOpen((open) => !open)}
           >
             <Bell size={18} />
           </button>
-          {unreadCount > 0 && (
+          {notifications.length > 0 && (
             <span
               style={{
                 position: 'absolute',
@@ -126,6 +133,75 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 border: '2px solid var(--bg-app)',
               }}
             />
+          )}
+
+          {notificationsOpen && (
+            <>
+              <div style={{ position: 'fixed', inset: 0, zIndex: 90 }} onClick={() => setNotificationsOpen(false)} />
+              <div
+                className="card"
+                style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 10px)',
+                  right: 0,
+                  width: '320px',
+                  maxHeight: '380px',
+                  overflowY: 'auto',
+                  background: 'var(--bg-modal)',
+                  zIndex: 91,
+                  padding: '8px',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 8px 10px 8px' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Reminders</span>
+                  {notifications.length > 0 && (
+                    <button
+                      className="btn btn-ghost"
+                      style={{ padding: '2px 6px', fontSize: '0.72rem' }}
+                      onClick={onClearNotifications}
+                    >
+                      Clear all
+                    </button>
+                  )}
+                </div>
+
+                {notifications.length === 0 ? (
+                  <div style={{ padding: '18px 8px', textAlign: 'center', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                    You&apos;re all caught up.
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {notifications.map((n) => (
+                      <div
+                        key={n.id}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'flex-start',
+                          gap: '8px',
+                          padding: '8px',
+                          borderRadius: 'var(--radius-sm)',
+                          background: 'var(--bg-subtle)',
+                        }}
+                      >
+                        {n.kind === 'due-today' ? (
+                          <AlertTriangle size={15} color="#ef4444" style={{ marginTop: '1px', flexShrink: 0 }} />
+                        ) : (
+                          <Clock3 size={15} color="var(--primary)" style={{ marginTop: '1px', flexShrink: 0 }} />
+                        )}
+                        <div style={{ minWidth: 0 }}>
+                          <div style={{ fontSize: '0.82rem', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                            {n.taskTitle}
+                          </div>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                            {n.kind === 'due-today' ? 'Due today' : 'Due tomorrow — 1 day left'}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </div>
 

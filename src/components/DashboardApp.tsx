@@ -2,21 +2,24 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  Task, 
-  Category, 
-  UserProfile, 
-  ActiveTab, 
-  ViewMode, 
-  ThemeMode, 
-  Priority, 
-  TaskStatus, 
-  SortOption, 
-  ToastMessage 
+import {
+  Task,
+  Category,
+  UserProfile,
+  ActiveTab,
+  ViewMode,
+  ThemeMode,
+  Priority,
+  TaskStatus,
+  SortOption,
+  ToastMessage,
+  RoutineBlock,
+  Weekday,
 } from '@/types/task';
-import { INITIAL_TASKS, INITIAL_CATEGORIES, INITIAL_USER, TODAY_DATE } from '@/lib/initialData';
+import { INITIAL_TASKS, INITIAL_CATEGORIES, INITIAL_USER, INITIAL_ROUTINE_BLOCKS, DEFAULT_WAKE_TIME, TODAY_DATE } from '@/lib/initialData';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
 import { STORAGE_KEYS } from '@/lib/storageKeys';
+import { useDeadlineReminders, DeadlineReminder } from '@/lib/reminders';
 import { Sidebar } from '@/components/Sidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { DashboardOverview } from '@/components/DashboardOverview';
@@ -24,6 +27,8 @@ import { FilterControls } from '@/components/FilterControls';
 import { ListView } from '@/components/ListView';
 import { KanbanBoard } from '@/components/KanbanBoard';
 import { CalendarView } from '@/components/CalendarView';
+import { RoutineView } from '@/components/RoutineView';
+import { RoutineBlockModal } from '@/components/RoutineBlockModal';
 import { CategoriesView } from '@/components/CategoriesView';
 import { SettingsView } from '@/components/SettingsView';
 import { TaskModal } from '@/components/TaskModal';
@@ -39,6 +44,8 @@ export function DashboardApp() {
   const [categories, setCategories] = useLocalStorageState<Category[]>(STORAGE_KEYS.CATEGORIES, INITIAL_CATEGORIES);
   const [user, setUser] = useLocalStorageState<UserProfile>(STORAGE_KEYS.USER, INITIAL_USER);
   const [theme, setTheme] = useLocalStorageState<ThemeMode>(STORAGE_KEYS.THEME, 'dark');
+  const [routineBlocks, setRoutineBlocks] = useLocalStorageState<RoutineBlock[]>(STORAGE_KEYS.ROUTINE_BLOCKS, INITIAL_ROUTINE_BLOCKS);
+  const [wakeTime, setWakeTime] = useLocalStorageState<string>(STORAGE_KEYS.WAKE_TIME, DEFAULT_WAKE_TIME);
 
   // Navigation & View state
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
@@ -78,6 +85,42 @@ export function DashboardApp() {
     setIsTaskModalOpen(true);
   };
 
+  // Routine block modal
+  const [isRoutineModalOpen, setIsRoutineModalOpen] = useState(false);
+  const [editingBlock, setEditingBlock] = useState<RoutineBlock | null>(null);
+  const [defaultBlockDay, setDefaultBlockDay] = useState<Weekday>('mon');
+  const [defaultBlockStart, setDefaultBlockStart] = useState('07:00');
+  const [routineModalKey, setRoutineModalKey] = useState(0);
+
+  const openNewRoutineBlock = (day: Weekday, startTime: string) => {
+    setEditingBlock(null);
+    setDefaultBlockDay(day);
+    setDefaultBlockStart(startTime);
+    setRoutineModalKey((k) => k + 1);
+    setIsRoutineModalOpen(true);
+  };
+
+  const openEditRoutineBlock = (block: RoutineBlock) => {
+    setEditingBlock(block);
+    setRoutineModalKey((k) => k + 1);
+    setIsRoutineModalOpen(true);
+  };
+
+  const handleSaveRoutineBlock = (data: Omit<RoutineBlock, 'id'>, blockId?: string) => {
+    if (blockId) {
+      setRoutineBlocks((prev) => prev.map((b) => (b.id === blockId ? { ...b, ...data } : b)));
+      addToast('Routine block updated');
+    } else {
+      setRoutineBlocks((prev) => [...prev, { ...data, id: `rt-${Date.now()}` }]);
+      addToast('Added to your routine');
+    }
+  };
+
+  const handleDeleteRoutineBlock = (blockId: string) => {
+    setRoutineBlocks((prev) => prev.filter((b) => b.id !== blockId));
+    addToast('Removed from your routine', 'info');
+  };
+
   // Toasts
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
@@ -92,6 +135,17 @@ export function DashboardApp() {
   const removeToast = (id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
+
+  // Deadline reminders — in-app only (see Settings > Notifications for why
+  // there's no real email yet: this app has no backend to send from).
+  const [notifications, setNotifications] = useState<DeadlineReminder[]>([]);
+  useDeadlineReminders(tasks, TODAY_DATE, user.notificationsEnabled, (reminder) => {
+    setNotifications((prev) => [reminder, ...prev].slice(0, 20));
+    addToast(
+      `"${reminder.taskTitle}" is due ${reminder.kind === 'due-today' ? 'today' : 'tomorrow'}`,
+      reminder.kind === 'due-today' ? 'warning' : 'info',
+    );
+  });
 
   // Keep the <html> element's data-theme attribute (used by the CSS design system) in sync
   useEffect(() => {
@@ -303,6 +357,8 @@ export function DashboardApp() {
       setTasks(INITIAL_TASKS);
       setCategories(INITIAL_CATEGORIES);
       setUser(INITIAL_USER);
+      setRoutineBlocks(INITIAL_ROUTINE_BLOCKS);
+      setWakeTime(DEFAULT_WAKE_TIME);
       localStorage.clear();
       addToast('Reset to default sample data', 'info');
     }
@@ -347,6 +403,8 @@ export function DashboardApp() {
           onSearchChange={setSearchQuery}
           onOpenNewTask={() => openNewTaskModal()}
           onOpenMobileMenu={() => setMobileSidebarOpen(true)}
+          notifications={notifications}
+          onClearNotifications={() => setNotifications([])}
         />
 
         {/* Dynamic Tab Body */}
@@ -435,6 +493,17 @@ export function DashboardApp() {
             />
           )}
 
+          {/* TAB 6: WEEKLY ROUTINE */}
+          {activeTab === 'routine' && (
+            <RoutineView
+              blocks={routineBlocks}
+              wakeTime={wakeTime}
+              onWakeTimeChange={setWakeTime}
+              onAddBlock={openNewRoutineBlock}
+              onEditBlock={openEditRoutineBlock}
+            />
+          )}
+
           {/* TAB 7: CATEGORIES */}
           {activeTab === 'categories' && (
             <CategoriesView
@@ -477,6 +546,21 @@ export function DashboardApp() {
         defaultStatus={defaultTaskStatus}
         defaultDueDate={defaultTaskDueDate}
         categories={categories}
+      />
+
+      {/* Routine Block Creation & Editing Modal */}
+      <RoutineBlockModal
+        key={routineModalKey}
+        isOpen={isRoutineModalOpen}
+        onClose={() => {
+          setIsRoutineModalOpen(false);
+          setEditingBlock(null);
+        }}
+        onSave={handleSaveRoutineBlock}
+        onDelete={handleDeleteRoutineBlock}
+        initialBlock={editingBlock}
+        defaultDay={defaultBlockDay}
+        defaultStartTime={defaultBlockStart}
       />
 
       {/* Task Detail Modal */}

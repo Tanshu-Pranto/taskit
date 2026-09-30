@@ -1,22 +1,23 @@
 'use client';
 
 import React from 'react';
-import { 
-  CheckSquare, 
-  LayoutDashboard, 
-  CheckCircle2, 
-  Calendar as CalendarIcon, 
-  Clock, 
-  CalendarDays, 
-  FolderTree, 
-  Settings, 
-  LogOut, 
-  Sun, 
-  Moon, 
-  ChevronLeft, 
-  ChevronRight, 
+import {
+  CheckSquare,
+  LayoutDashboard,
+  CheckCircle2,
+  Calendar as CalendarIcon,
+  Clock,
+  CalendarDays,
+  FolderTree,
+  Settings,
+  LogOut,
+  Sun,
+  Moon,
+  ChevronLeft,
+  ChevronRight,
   X,
-  Plus
+  Plus,
+  AlarmClock
 } from 'lucide-react';
 import { ActiveTab, ThemeMode, UserProfile, Category } from '@/types/task';
 import { TaskitLogo } from './TaskitLogo';
@@ -64,6 +65,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'upcoming', label: 'Upcoming', icon: <CalendarDays size={18} />, badge: taskCounts.upcoming },
     { id: 'calendar', label: 'Calendar', icon: <CalendarIcon size={18} /> },
     { id: 'completed', label: 'Completed', icon: <CheckCircle2 size={18} />, badge: taskCounts.completed },
+    { id: 'routine', label: 'Routine', icon: <AlarmClock size={18} /> },
     { id: 'categories', label: 'Categories', icon: <FolderTree size={18} /> },
     { id: 'settings', label: 'Settings', icon: <Settings size={18} /> },
   ];
