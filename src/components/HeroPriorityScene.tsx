@@ -80,7 +80,7 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
         </div>
       </div>
       <div className="paper-boxes" aria-label="Priority drop zones">
-        {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`} style={{ '--box-color': priority.color } as React.CSSProperties}>
+        {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`} style={{ '--box-color': 'var(--primary)' } as React.CSSProperties}>
           <svg className="paper-box-illustration" viewBox="0 0 300 230" aria-hidden="true">
             <defs>
               <linearGradient id={`front-${priority.key}`} x1="0" y1="0" x2=".35" y2="1">
@@ -109,22 +109,15 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
                 <stop offset="50%" stopColor="#ffffff" stopOpacity=".55" />
                 <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
               </linearGradient>
-              {/* Soft two-layer contact shadow: a colored ground bounce plus a broad neutral falloff */}
+              {/* Soft two-layer contact shadow: a neon-orange ground bounce plus a broad neutral falloff */}
               <radialGradient id={`shadow-warm-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor={priority.color} stopOpacity=".4" />
-                <stop offset="100%" stopColor={priority.color} stopOpacity="0" />
+                <stop offset="0%" stopColor="var(--box-color)" stopOpacity=".45" />
+                <stop offset="100%" stopColor="var(--box-color)" stopOpacity="0" />
               </radialGradient>
               <radialGradient id={`shadow-soft-${priority.key}`} cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#000000" stopOpacity=".2" />
                 <stop offset="100%" stopColor="#000000" stopOpacity="0" />
               </radialGradient>
-              <radialGradient id={`mark-glow-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor={priority.color} stopOpacity=".5" />
-                <stop offset="100%" stopColor={priority.color} stopOpacity="0" />
-              </radialGradient>
-              <clipPath id={`side-clip-${priority.key}`}>
-                <polygon points="195,100 250,65 250,195 195,230" />
-              </clipPath>
               <clipPath id={`front-clip-${priority.key}`}>
                 <polygon points="50,100 195,100 195,230 50,230" />
               </clipPath>
@@ -153,12 +146,6 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
               <path d="M50 100 L195 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
               {/* Hand-hold die-cut */}
               <ellipse cx="184" cy="207" rx="7" ry="10" fill="rgba(20,10,5,.4)" />
-            </g>
-            {/* Bold color mark bleeding off the side face, like a premium brand plate */}
-            <g clipPath={`url(#side-clip-${priority.key})`}>
-              <circle cx="228" cy="130" r="62" fill={`url(#mark-glow-${priority.key})`} />
-              <circle cx="224" cy="150" r="32" fill={priority.color} />
-              <circle cx="238" cy="126" r="15" fill="var(--box-side-3)" />
             </g>
             {/* Priority copy set flush on the front face, no label chip */}
             <g clipPath={`url(#front-clip-${priority.key})`}>
