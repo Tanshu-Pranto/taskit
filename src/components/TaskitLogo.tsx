@@ -1,85 +1,23 @@
 'use client';
 
 import React from 'react';
+import { Mascot } from './Mascot';
 
 interface TaskitLogoProps {
   size?: number;
   showWordmark?: boolean;
   tagline?: boolean;
   className?: string;
-  variant?: 'neon' | 'glass' | 'monochrome';
 }
 
 export const TaskitLogo: React.FC<TaskitLogoProps> = ({
   size = 32,
   showWordmark = true,
   tagline = false,
-  variant = 'neon',
 }) => {
   return (
     <div style={{ display: 'inline-flex', alignItems: 'center', gap: size > 28 ? '10px' : '8px' }}>
-      {/* Geometric Multi-Tier Growth Canopy Icon (inspired by reference top-left mark) */}
-      <div
-        style={{
-          width: `${size}px`,
-          height: `${size}px`,
-          borderRadius: `${Math.max(8, Math.round(size * 0.3))}px`,
-          background: variant === 'neon'
-            ? 'linear-gradient(135deg, #ff8a3d 0%, #ff4d2e 100%)'
-            : 'var(--bg-subtle)',
-          boxShadow: variant === 'neon' ? '0 0 20px rgba(255, 107, 53, 0.4)' : 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-          color: variant === 'neon' ? '#fffaf7' : 'var(--primary)',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-        }}
-      >
-        <svg
-          width={Math.round(size * 0.65)}
-          height={Math.round(size * 0.65)}
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          {/* Top tier canopy */}
-          <path
-            d="M12 2.5L16 6.5H8L12 2.5Z"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            strokeLinejoin="round"
-          />
-          {/* Middle tier canopy */}
-          <path
-            d="M12 6.5L18.5 12H5.5L12 6.5Z"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            strokeLinejoin="round"
-            opacity="0.95"
-          />
-          {/* Bottom tier canopy */}
-          <path
-            d="M12 11.5L21 18H3L12 11.5Z"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="0.5"
-            strokeLinejoin="round"
-            opacity="0.9"
-          />
-          {/* Stem base */}
-          <rect
-            x="10.8"
-            y="18"
-            width="2.4"
-            height="3.5"
-            rx="1"
-            fill="currentColor"
-          />
-        </svg>
-      </div>
+      <Mascot size={size} style={{ flexShrink: 0 }} />
 
       {showWordmark && (
         <div style={{ display: 'flex', flexDirection: 'column' }}>

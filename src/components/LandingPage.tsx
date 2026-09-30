@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { ThemeMode } from '@/types/task';
 import { TaskitLogo } from './TaskitLogo';
+import { Mascot } from './Mascot';
 import { HeroPriorityScene } from './HeroPriorityScene';
 import { InfiniteCardCarousel } from './InfiniteCardCarousel';
 import { StreamlinedFlow } from './StreamlinedFlow';
@@ -141,6 +142,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         />
 
         <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <Mascot size={110} animate style={{ margin: '0 auto 18px auto' }} />
+
           <div
             style={{
               display: 'inline-flex',

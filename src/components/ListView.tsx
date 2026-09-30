@@ -2,16 +2,16 @@
 
 import React from 'react';
 import { Task, TaskStatus, Category } from '@/types/task';
-import { 
-  CheckCircle, 
-  Circle, 
-  Calendar, 
-  Edit3, 
-  Trash2, 
-  Plus, 
+import {
+  CheckCircle,
+  Circle,
+  Calendar,
+  Edit3,
+  Trash2,
+  Plus,
   AlertCircle,
-  Inbox
 } from 'lucide-react';
+import { Mascot } from './Mascot';
 
 interface ListViewProps {
   tasks: Task[];
@@ -59,21 +59,7 @@ export const ListView: React.FC<ListViewProps> = ({
           justifyContent: 'center',
         }}
       >
-        <div
-          style={{
-            width: '56px',
-            height: '56px',
-            borderRadius: '16px',
-            background: 'var(--bg-subtle)',
-            color: 'var(--text-muted)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: '16px',
-          }}
-        >
-          <Inbox size={28} />
-        </div>
+        <Mascot size={88} mood="sleepy" style={{ marginBottom: '12px' }} />
         <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '6px' }}>
           No tasks yet
         </h3>
