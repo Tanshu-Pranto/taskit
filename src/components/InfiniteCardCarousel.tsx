@@ -103,12 +103,17 @@ export const InfiniteCardCarousel: React.FC<InfiniteCardCarouselProps> = ({ item
     items.map((item, i) => (
       <div
         key={`${copyIndex}-${i}`}
-        className="card card-interactive"
+        className="feature-card"
         style={{ padding: '24px', width: `${CARD_WIDTH}px`, flexShrink: 0 }}
       >
-        <div style={{ color: item.color, marginBottom: '16px' }}>{item.icon}</div>
-        <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '8px' }}>{item.title}</h3>
-        <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{item.desc}</p>
+        <div
+          className="feature-card-icon"
+          style={{ color: item.color, background: `color-mix(in srgb, ${item.color}, transparent 84%)` }}
+        >
+          {item.icon}
+        </div>
+        <h3 style={{ position: 'relative', zIndex: 1, fontSize: '1.1rem', fontWeight: 700, marginBottom: '8px' }}>{item.title}</h3>
+        <p style={{ position: 'relative', zIndex: 1, fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{item.desc}</p>
       </div>
     ))
   );
