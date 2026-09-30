@@ -1,5 +1,9 @@
 import { Task, Category, UserProfile } from '@/types/task';
 
+// The app's simulated "today" — every seeded due date, sort and overdue check
+// is anchored to this instead of the real clock, so the demo data stays coherent.
+export const TODAY_DATE = '2026-09-26';
+
 export const INITIAL_CATEGORIES: Category[] = [
   { id: 'cat-1', name: 'Product', color: '#2dd4bf', icon: 'Sparkles' },
   { id: 'cat-2', name: 'Design', color: '#38bdf8', icon: 'Palette' },

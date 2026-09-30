@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Check, GripHorizontal } from 'lucide-react';
 import { usePrefersReducedMotion } from '@/lib/usePrefersReducedMotion';
+import { stageTask } from '@/lib/stagedTasks';
 
 type PriorityKey = 'high' | 'medium' | 'low';
 const PRIORITIES: { key: PriorityKey; label: string; color: string }[] = [
@@ -41,6 +42,7 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
   const prioritize = (priority: PriorityKey) => {
     const card = cardRef.current; const box = boxRefs.current.get(priority);
     if (!card || !box || dropping || !title.trim()) return;
+    stageTask(title.trim(), priority);
     setDropping(true); setActiveBox(null); setOpenedBox(priority);
     const cardRect = card.getBoundingClientRect(); const boxRect = box.getBoundingClientRect();
     const dx = boxRect.left + boxRect.width / 2 - (cardRect.left + cardRect.width / 2);

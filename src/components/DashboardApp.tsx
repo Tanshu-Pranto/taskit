@@ -14,8 +14,9 @@ import {
   SortOption, 
   ToastMessage 
 } from '@/types/task';
-import { INITIAL_TASKS, INITIAL_CATEGORIES, INITIAL_USER } from '@/lib/initialData';
+import { INITIAL_TASKS, INITIAL_CATEGORIES, INITIAL_USER, TODAY_DATE } from '@/lib/initialData';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
+import { STORAGE_KEYS } from '@/lib/storageKeys';
 import { Sidebar } from '@/components/Sidebar';
 import { DashboardHeader } from '@/components/DashboardHeader';
 import { DashboardOverview } from '@/components/DashboardOverview';
@@ -29,15 +30,6 @@ import { TaskModal } from '@/components/TaskModal';
 import { TaskDetailModal } from '@/components/TaskDetailModal';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import { Toast } from '@/components/Toast';
-
-const STORAGE_KEYS = {
-  TASKS: 'taskflow_saas_tasks_v2',
-  CATEGORIES: 'taskflow_saas_categories_v2',
-  USER: 'taskflow_saas_user_v2',
-  THEME: 'taskflow_saas_theme_v2',
-};
-
-const TODAY_DATE = '2026-09-26';
 
 export function DashboardApp() {
   const router = useRouter();
@@ -364,7 +356,6 @@ export function DashboardApp() {
             <DashboardOverview
               tasks={tasks}
               categories={categories}
-              user={user}
               todayDate={TODAY_DATE}
               onSelectTask={(task) => setDetailTask(task)}
               onViewAllTasks={() => setActiveTab('tasks')}

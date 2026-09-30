@@ -7,11 +7,8 @@ import { LandingPage } from '@/components/LandingPage';
 import { AuthModal } from '@/components/AuthModal';
 import { Toast } from '@/components/Toast';
 import { useLocalStorageState } from '@/lib/useLocalStorageState';
-
-const STORAGE_KEYS = {
-  THEME: 'taskflow_saas_theme_v2',
-  USER: 'taskflow_saas_user_v2',
-};
+import { STORAGE_KEYS } from '@/lib/storageKeys';
+import { promoteStagedTasks } from '@/lib/stagedTasks';
 
 export default function Home() {
   const router = useRouter();
@@ -28,13 +25,27 @@ export default function Home() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  // Carries any tasks staged in the hero's priority boxes into the
+  // dashboard, then navigates. The merge is a synchronous localStorage
+  // write in this click handler, not a mount effect.
+  const goToDashboard = () => {
+    const imported = promoteStagedTasks();
+    if (imported > 0) {
+      const id = `toast-${Date.now()}`;
+      setToasts((prev) => [...prev, { id, type: 'success', message: `${imported} task${imported === 1 ? '' : 's'} added to your dashboard` }]);
+      window.setTimeout(() => router.push('/dashboard'), 650);
+    } else {
+      router.push('/dashboard');
+    }
+  };
+
   const handleLoginSuccess = (user: UserProfile) => {
     try {
       localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(user));
     } catch (e) {
       console.warn(e);
     }
-    router.push('/dashboard');
+    goToDashboard();
   };
 
   return (
@@ -46,9 +57,7 @@ export default function Home() {
           setAuthModalMode(mode || 'login');
           setIsAuthModalOpen(true);
         }}
-        onEnterDashboard={() => {
-          router.push('/dashboard');
-        }}
+        onEnterDashboard={goToDashboard}
       />
 
       <AuthModal
