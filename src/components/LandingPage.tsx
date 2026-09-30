@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { ThemeMode } from '@/types/task';
 import { TaskitLogo } from './TaskitLogo';
-import { Mascot } from './Mascot';
 import { HeroPriorityScene } from './HeroPriorityScene';
 import { InfiniteCardCarousel } from './InfiniteCardCarousel';
 import { StreamlinedFlow } from './StreamlinedFlow';
@@ -123,6 +122,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           position: 'relative',
           padding: '90px 24px 70px 24px',
           overflow: 'hidden',
+          textAlign: 'center',
         }}
       >
         {/* Subtle Background Glow */}
@@ -140,128 +140,78 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           }}
         />
 
-        <div className="mascot-grid" style={{ maxWidth: '1140px', margin: '0 auto 60px auto', position: 'relative', zIndex: 1 }}>
-          <div className="mascot-text">
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: 'var(--radius-full)',
-                background: 'var(--primary-subtle)',
-                color: 'var(--primary)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                marginBottom: '24px',
-                border: '1px solid var(--border-focus)',
-              }}
-            >
-              <Sparkles size={14} />
-              <span style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                Your Productivity, Your Way
-              </span>
-            </div>
-
-            <h1
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 3.6rem)',
-                fontWeight: 800,
-                lineHeight: 1.15,
-                letterSpacing: '-0.03em',
-                marginBottom: '20px',
-              }}
-            >
-              Turn Your Tasks<br />
-              Into <span style={{ color: 'var(--primary)' }}>Progress.</span>
-            </h1>
-
-            <p
-              style={{
-                fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.6,
-                maxWidth: '480px',
-                margin: '0 0 36px 0',
-              }}
-            >
-              Organize your workload and take control of your day.
-            </p>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '14px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <button
-                className="btn btn-primary"
-                style={{ padding: '12px 24px', fontSize: '1rem', fontWeight: 600 }}
-                onClick={onEnterDashboard}
-              >
-                Get Started — It&apos;s Free
-                <ArrowRight size={18} />
-              </button>
-              <a
-                href="#features"
-                className="btn btn-secondary"
-                style={{ padding: '12px 24px', fontSize: '1rem' }}
-              >
-                Explore Taskit
-              </a>
-            </div>
+        <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--primary-subtle)',
+              color: 'var(--primary)',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              marginBottom: '24px',
+              border: '1px solid var(--border-focus)',
+            }}
+          >
+            <Sparkles size={14} />
+            <span style={{ textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Your Productivity, Your Way
+            </span>
           </div>
 
-          {/* Mascot scene — the character mid-task, with floating UI bits */}
-          <div className="mascot-visual">
-            <div style={{ position: 'relative', width: '340px', height: '340px' }}>
-              <Mascot size={260} pose="holding" animate style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)' }} />
+          <h1
+            style={{
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontWeight: 800,
+              lineHeight: 1.15,
+              letterSpacing: '-0.03em',
+              marginBottom: '20px',
+            }}
+          >
+            Turn Your Tasks<br />
+            Into <span style={{ color: 'var(--primary)' }}>Progress.</span>
+          </h1>
 
-              <div
-                className="card floating-card"
-                style={{
-                  position: 'absolute',
-                  top: '4px',
-                  left: '-10px',
-                  width: '172px',
-                  padding: '12px 14px',
-                  zIndex: 2,
-                  ['--float-rotate' as string]: '-6deg',
-                }}
-              >
-                {['Plan my day', 'Study for exam', 'Build Taskit'].map((item, i) => (
-                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0', fontSize: '0.78rem', fontWeight: 600 }}>
-                    <span
-                      style={{
-                        width: '15px',
-                        height: '15px',
-                        borderRadius: '5px',
-                        border: i === 0 ? 'none' : '1.5px solid var(--border-color)',
-                        background: i === 0 ? 'var(--primary)' : 'transparent',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {i === 0 && <CheckCircle2 size={11} color="#fff" strokeWidth={3} />}
-                    </span>
-                    <span style={{ textDecoration: i === 0 ? 'line-through' : 'none', color: i === 0 ? 'var(--text-muted)' : 'var(--text-main)' }}>
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
+          <p
+            style={{
+              fontSize: 'clamp(1rem, 2vw, 1.25rem)',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.6,
+              maxWidth: '680px',
+              margin: '0 auto 36px auto',
+            }}
+          >
+            Organize your workload and take control of your day.
+          </p>
 
-              <span
-                className="handwritten-note"
-                style={{ position: 'absolute', top: '20px', right: '-8px', transform: 'rotate(6deg)' }}
-              >
-                Small steps.<br />Big goals!
-              </span>
-            </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '14px',
+              flexWrap: 'wrap',
+              marginBottom: '50px',
+            }}
+          >
+            <button
+              className="btn btn-primary"
+              style={{ padding: '12px 24px', fontSize: '1rem', fontWeight: 600 }}
+              onClick={onEnterDashboard}
+            >
+              Get Started — It&apos;s Free
+              <ArrowRight size={18} />
+            </button>
+            <a
+              href="#features"
+              className="btn btn-secondary"
+              style={{ padding: '12px 24px', fontSize: '1rem' }}
+            >
+              Explore Taskit
+            </a>
           </div>
         </div>
 
@@ -288,84 +238,21 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           width: '100%',
         }}
       >
-        <div className="mascot-grid" style={{ marginBottom: '56px' }}>
-          <div className="mascot-text">
-            <span
-              style={{
-                fontSize: '0.8rem',
-                fontWeight: 700,
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                color: 'var(--primary)',
-              }}
-            >
-              Powerful Features
-            </span>
-            <h2 style={{ fontSize: '2.2rem', fontWeight: 800, marginTop: '8px', letterSpacing: '-0.02em', marginBottom: '12px' }}>
-              Everything you need to stay on track.
-            </h2>
-            <p style={{ color: 'var(--text-secondary)', maxWidth: '440px' }}>
-              From daily to-dos to long-term goals, Taskit keeps you organized, focused, and motivated — all in one place.
-            </p>
-          </div>
-
-          {/* Mascot peeking over a mini priority board */}
-          <div className="mascot-visual">
-            <div style={{ position: 'relative', width: '300px', height: '260px' }}>
-              <Mascot size={190} pose="wave" style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', zIndex: 1 }} />
-
-              <div
-                className="card"
-                style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '280px',
-                  padding: '14px',
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                  gap: '8px',
-                  zIndex: 2,
-                }}
-              >
-                {[
-                  { label: 'High', color: '#ef4444', items: ['Finish project'] },
-                  { label: 'Medium', color: '#f59e0b', items: ['Read a book'] },
-                  { label: 'Low', color: '#9ca3af', items: ['Clean room'] },
-                ].map((col) => (
-                  <div key={col.label}>
-                    <span
-                      style={{
-                        display: 'inline-block',
-                        fontSize: '0.62rem',
-                        fontWeight: 700,
-                        padding: '2px 6px',
-                        borderRadius: '999px',
-                        marginBottom: '6px',
-                        color: col.color,
-                        background: `color-mix(in srgb, ${col.color}, transparent 85%)`,
-                      }}
-                    >
-                      {col.label}
-                    </span>
-                    {col.items.map((item) => (
-                      <div key={item} style={{ fontSize: '0.66rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-
-              <span
-                className="handwritten-note"
-                style={{ position: 'absolute', top: '-6px', left: '-10px', fontSize: '1.15rem', transform: 'rotate(-6deg)' }}
-              >
-                Prioritize like a pro!
-              </span>
-            </div>
-          </div>
+        <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+          <span
+            style={{
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              color: 'var(--primary)',
+            }}
+          >
+            Powerful Features
+          </span>
+          <h2 style={{ fontSize: '2.2rem', fontWeight: 800, marginTop: '8px', letterSpacing: '-0.02em' }}>
+            Everything you need to stay on track.
+          </h2>
         </div>
 
         <InfiniteCardCarousel
@@ -695,46 +582,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       </section>
 
       {/* Final CTA Section */}
-      <section style={{ padding: '80px 24px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
-        <div
-          style={{
-            position: 'relative',
-            background: 'var(--bg-app)',
-            border: '1px solid var(--border-color)',
-            borderRadius: 'var(--radius-xl)',
-            overflow: 'hidden',
-            padding: '48px 40px',
-          }}
+      <section
+        style={{
+          padding: '100px 24px',
+          textAlign: 'center',
+          maxWidth: '800px',
+          margin: '0 auto',
+        }}
+      >
+        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px' }}>
+          Take control of your day.
+        </h2>
+        <p style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '36px' }}>
+          Plan smarter, stay focused, and get more done.
+        </p>
+        <button
+          className="btn btn-primary"
+          style={{ padding: '14px 32px', fontSize: '1.1rem', fontWeight: 600 }}
+          onClick={onEnterDashboard}
         >
-          <div className="mascot-grid" style={{ position: 'relative', zIndex: 1 }}>
-            <div className="mascot-visual">
-              <Mascot size={180} pose="wave" animate />
-            </div>
-
-            <div className="mascot-text" style={{ position: 'relative' }}>
-              <h2 style={{ fontSize: 'clamp(1.8rem, 3.4vw, 2.4rem)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
-                Ready to be more productive?
-              </h2>
-              <p style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: '28px' }}>
-                Join Taskit today and turn your goals into progress.
-              </p>
-              <button
-                className="btn btn-primary"
-                style={{ padding: '14px 32px', fontSize: '1.05rem', fontWeight: 600 }}
-                onClick={onEnterDashboard}
-              >
-                Get Started Free
-                <ArrowRight size={20} />
-              </button>
-              <span
-                className="handwritten-note hide-mobile"
-                style={{ position: 'absolute', top: '-6px', right: '6px', transform: 'rotate(5deg)' }}
-              >
-                Let&apos;s do this!
-              </span>
-            </div>
-          </div>
-        </div>
+          Start Managing Tasks
+          <ArrowRight size={20} />
+        </button>
       </section>
 
       {/* Footer */}

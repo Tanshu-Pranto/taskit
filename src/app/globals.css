@@ -703,55 +703,6 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-/* Mascot scenes — two-column layout with the character beside content
-   instead of on top of it. Text first in the DOM so it's never
-   "mascot over text" even stacked on mobile; order flips the visual
-   column to one side on desktop only. */
-.mascot-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 40px;
-}
-.mascot-grid .mascot-visual {
-  display: flex;
-  justify-content: center;
-}
-@media (max-width: 860px) {
-  .mascot-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  .mascot-grid .mascot-text {
-    order: 1;
-  }
-  .mascot-grid .mascot-visual {
-    order: 2;
-  }
-}
-
-.handwritten-note {
-  font-family: var(--font-handwritten), cursive;
-  font-weight: 700;
-  font-size: 1.4rem;
-  color: var(--primary);
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-.floating-card {
-  animation: floatCard 4s ease-in-out infinite;
-}
-@keyframes floatCard {
-  0%, 100% { transform: translateY(0) rotate(var(--float-rotate, -4deg)); }
-  50% { transform: translateY(-8px) rotate(var(--float-rotate, -4deg)); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .floating-card {
-    animation: none;
-  }
-}
-
 .routine-hour-cell:hover {
   background: var(--bg-subtle);
 }
