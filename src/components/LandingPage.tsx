@@ -142,7 +142,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         />
 
         <div style={{ maxWidth: '850px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
-          <Mascot size={110} animate style={{ margin: '0 auto 18px auto' }} />
+          <Mascot size={130} pose="wave" animate style={{ margin: '0 auto 18px auto' }} />
 
           <div
             style={{
@@ -329,6 +329,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '56px' }}>
+            <Mascot size={90} pose="point" style={{ margin: '0 auto 12px auto' }} />
             <span
               style={{
                 fontSize: '0.8rem',
@@ -593,6 +594,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           margin: '0 auto',
         }}
       >
+        <Mascot size={130} pose="cheer" animate style={{ margin: '0 auto 20px auto' }} />
         <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '16px' }}>
           Take control of your day.
         </h2>

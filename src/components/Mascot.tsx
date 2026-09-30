@@ -2,15 +2,29 @@
 
 import React, { useId } from 'react';
 
+export type MascotPose = 'idle' | 'wave' | 'cheer' | 'point';
+
 interface MascotProps {
   size?: number;
   className?: string;
   /** 'happy' is the default grin; 'sleepy' half-closed eyes for empty/idle states. */
   mood?: 'happy' | 'sleepy';
+  /** Arm posture — lets the same character read differently in different spots. */
+  pose?: MascotPose;
   /** Adds a soft bob animation (respects prefers-reduced-motion via CSS). */
   animate?: boolean;
   style?: React.CSSProperties;
 }
+
+// Right-arm rotation per pose, hanging straight down at 0°. The left arm
+// mirrors it (negated) except in 'wave' and 'point', which are one-armed
+// gestures and keep the left arm in its idle resting angle.
+const RIGHT_ARM_ANGLE: Record<MascotPose, number> = {
+  idle: -20,
+  wave: -165,
+  cheer: -160,
+  point: -70,
+};
 
 /**
  * Taskit's flame mascot — a glossy, rounded flame character built entirely
@@ -18,12 +32,16 @@ interface MascotProps {
  * at favicon size and at full hero size alike. Gradient ids are namespaced
  * per instance via useId so multiple copies on one page don't collide.
  */
-export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'happy', animate = false, style }) => {
+export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'happy', pose = 'idle', animate = false, style }) => {
   const uid = useId().replace(/[:]/g, '');
   const bodyGrad = `mascot-body-${uid}`;
   const headGrad = `mascot-head-${uid}`;
   const glow = `mascot-glow-${uid}`;
   const sheen = `mascot-sheen-${uid}`;
+  const faceGlow = `mascot-face-${uid}`;
+
+  const rightArmAngle = RIGHT_ARM_ANGLE[pose];
+  const leftArmAngle = pose === 'wave' || pose === 'point' ? 20 : -rightArmAngle;
 
   return (
     <svg
@@ -39,13 +57,13 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
     >
       <defs>
         <linearGradient id={headGrad} x1="20%" y1="0%" x2="85%" y2="100%">
-          <stop offset="0%" stopColor="#ffcb8a" />
-          <stop offset="38%" stopColor="#ff8a3d" />
-          <stop offset="75%" stopColor="#ff6b35" />
-          <stop offset="100%" stopColor="#c73f14" />
+          <stop offset="0%" stopColor="#fff3b0" />
+          <stop offset="32%" stopColor="#ffb04d" />
+          <stop offset="68%" stopColor="#ff6b35" />
+          <stop offset="100%" stopColor="#c22f0f" />
         </linearGradient>
         <linearGradient id={bodyGrad} x1="30%" y1="0%" x2="70%" y2="100%">
-          <stop offset="0%" stopColor="#ff8a3d" />
+          <stop offset="0%" stopColor="#ffa24d" />
           <stop offset="100%" stopColor="#d9481a" />
         </linearGradient>
         <radialGradient id={glow} cx="50%" cy="50%" r="50%">
@@ -53,8 +71,12 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
           <stop offset="100%" stopColor="#ff6b35" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={sheen} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.65" />
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.7" />
           <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
+        <radialGradient id={faceGlow} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#fff6d4" stopOpacity="0.9" />
+          <stop offset="100%" stopColor="#fff6d4" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -86,12 +108,31 @@ export const Mascot: React.FC<MascotProps> = ({ size = 96, className, mood = 'ha
         fill={`url(#${headGrad})`}
       />
 
+      {/* Soft warm glow behind the face, like the reference's lighter face patch */}
+      <ellipse cx="100" cy="128" rx="48" ry="46" fill={`url(#${faceGlow})`} />
+
       {/* Glossy highlight on the flame */}
       <ellipse cx="76" cy="52" rx="20" ry="30" fill={`url(#${sheen})`} transform="rotate(-16 76 52)" />
 
       {/* Small floating spark droplets, clear of the head silhouette */}
       <path d="M26 94c6 5 6 13 0 17-6-4-6-12 0-17Z" fill={`url(#${headGrad})`} opacity="0.9" />
       <path d="M172 76c5 4 5 11 0 15-5-4-5-11 0-15Z" fill={`url(#${headGrad})`} opacity="0.9" />
+
+      {/* Arms — a capsule limb plus a round hand, so a raised arm reads
+          clearly as a hand rather than blending into the flame behind it.
+          Rotated as one rigid group around the shoulder pivot. */}
+      <g transform={`rotate(${leftArmAngle} 68 166)`}>
+        <rect x="60" y="166" width="16" height="32" rx="8" fill={`url(#${bodyGrad})`} />
+        <circle cx="68" cy="202" r="11" fill={`url(#${bodyGrad})`} />
+      </g>
+      <g transform={`rotate(${rightArmAngle} 132 166)`}>
+        <rect x="124" y="166" width="16" height="32" rx="8" fill={`url(#${bodyGrad})`} />
+        <circle cx="132" cy="202" r="11" fill={`url(#${bodyGrad})`} />
+      </g>
+
+      {/* Rosy cheeks */}
+      <ellipse cx="65" cy="132" rx="9" ry="5.5" fill="#ff5a3c" opacity="0.5" />
+      <ellipse cx="135" cy="132" rx="9" ry="5.5" fill="#ff5a3c" opacity="0.5" />
 
       {/* Face */}
       {mood === 'happy' ? (
