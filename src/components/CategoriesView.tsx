@@ -252,23 +252,23 @@ export const CategoriesView: React.FC<CategoriesViewProps> = ({
           return (
             <div
               key={cat.id}
-              className="card card-interactive"
+              className="category-card"
               style={{
+                '--card-accent': cat.color,
                 padding: '24px',
-                borderTop: `4px solid ${cat.color}`,
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-              }}
+              } as React.CSSProperties}
             >
-              <div>
+              <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                   <div
                     style={{
                       width: '40px',
                       height: '40px',
                       borderRadius: '10px',
-                      background: `${cat.color}20`,
+                      background: `color-mix(in srgb, ${cat.color}, transparent 82%)`,
                       color: cat.color,
                       display: 'flex',
                       alignItems: 'center',
@@ -299,7 +299,7 @@ export const CategoriesView: React.FC<CategoriesViewProps> = ({
                 </p>
               </div>
 
-              <div>
+              <div style={{ position: 'relative', zIndex: 1 }}>
                 {/* Progress bar */}
                 <div style={{ height: '6px', background: 'var(--bg-subtle)', borderRadius: '999px', overflow: 'hidden', marginBottom: '16px' }}>
                   <div

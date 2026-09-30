@@ -298,6 +298,64 @@ body {
   margin-bottom: 16px;
 }
 
+/* Category cards — same frosted-glass treatment as .feature-card, but the
+   glow is per-card via --card-accent (set inline from the category's own
+   color) instead of a fixed orange, since color is how these are told
+   apart. Falls back to the brand orange if a card doesn't set it. */
+.category-card {
+  --card-accent: var(--primary);
+  position: relative;
+  cursor: pointer;
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  border: 1px solid color-mix(in srgb, var(--card-accent), transparent 58%);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 8px 24px rgba(0, 0, 0, 0.28),
+    0 0 20px color-mix(in srgb, var(--card-accent), transparent 82%);
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  overflow: hidden;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 26% 0%, color-mix(in srgb, var(--card-accent), transparent 86%), transparent 55%);
+  pointer-events: none;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--card-accent), transparent 30%);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 14px 32px rgba(0, 0, 0, 0.32),
+    0 0 26px color-mix(in srgb, var(--card-accent), transparent 62%),
+    0 0 56px color-mix(in srgb, var(--card-accent), transparent 86%);
+}
+
+[data-theme='light'] .category-card {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.32));
+  border: 1px solid color-mix(in srgb, var(--card-accent), transparent 45%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 8px 20px rgba(20, 14, 10, 0.08),
+    0 0 16px color-mix(in srgb, var(--card-accent), transparent 84%);
+}
+
+[data-theme='light'] .category-card:hover {
+  border-color: color-mix(in srgb, var(--card-accent), transparent 22%);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.4));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 14px 28px rgba(20, 14, 10, 0.1),
+    0 0 22px color-mix(in srgb, var(--card-accent), transparent 74%);
+}
+
 /* Premium Buttons */
 .btn {
   display: inline-flex;
