@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Check, GripHorizontal } from 'lucide-react';
+import { Check, ChevronDown, ChevronsUp, GripHorizontal, Minus, type LucideIcon } from 'lucide-react';
 import { usePrefersReducedMotion } from '@/lib/usePrefersReducedMotion';
 import { stageTask } from '@/lib/stagedTasks';
 
 type PriorityKey = 'high' | 'medium' | 'low';
-const PRIORITIES: { key: PriorityKey; label: string }[] = [
-  { key: 'high', label: 'High priority' },
-  { key: 'medium', label: 'Mid priority' },
-  { key: 'low', label: 'Low priority' },
+const PRIORITIES: { key: PriorityKey; label: string; icon: LucideIcon }[] = [
+  { key: 'high', label: 'High priority', icon: ChevronsUp },
+  { key: 'medium', label: 'Mid priority', icon: Minus },
+  { key: 'low', label: 'Low priority', icon: ChevronDown },
 ];
 const STACK_CARDS = [{ x: -12, y: 28, rotate: -5 }, { x: 13, y: 23, rotate: 4 }, { x: -7, y: 17, rotate: -2.5 }, { x: 8, y: 11, rotate: 3 }, { x: -3, y: 5, rotate: -1.3 }];
 const DROP_DURATION = 620;
@@ -154,6 +154,11 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
             <polygon className="cube-flash" points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill={`url(#cube-flash-${priority.key})`} />
           </svg>
           <span className="paper-box-hint">Drop here</span>
+          <span className="paper-box-tag" aria-hidden="true">
+            <span className="paper-box-tag-icon"><priority.icon size={12} strokeWidth={2.6} /></span>
+            <span className="paper-box-tag-label">{priority.label}</span>
+            <span key={counts[priority.key]} className="paper-box-tag-count">{counts[priority.key]}</span>
+          </span>
         </div>)}
       </div>
     </div>

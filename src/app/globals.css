@@ -752,7 +752,7 @@ input:focus, textarea:focus, select:focus {
 
 /* Paper stack hero — a physical task-writing surface rather than a form. */
 .paper-priority-scene { position: relative; width: 100%; max-width: 1080px; margin: 0 auto; user-select: none; }
-.paper-stage { position: relative; min-height: 640px; perspective: 1500px; }
+.paper-stage { position: relative; min-height: 690px; perspective: 1500px; }
 .paper-counter { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); z-index: 10; border: 1px solid rgba(255,255,255,.13); border-radius: 999px; background: rgba(18,18,18,.68); backdrop-filter: blur(12px); padding: 6px 13px; color: #e9dfd3; font-size: .73rem; font-weight: 750; letter-spacing: .04em; white-space: nowrap; }
 .paper-stack { position: absolute; width: min(420px, 62vw); height: 274px; left: 50%; top: 48px; transform: translateX(-50%); }
 .paper-card { position: absolute; inset: 0; border-radius: 5px 7px 9px 6px; background-color: #f5f0e5; background-image: repeating-linear-gradient(to bottom, transparent 0 35px, rgba(102, 123, 142, .18) 36px, transparent 37px), radial-gradient(rgba(80, 59, 36, .09) .55px, transparent .75px); background-size: auto, 5px 5px; border: 1px solid #dfd4c0; box-shadow: 0 18px 30px rgba(0,0,0,.44), inset 0 0 20px rgba(138,111,76,.06); }
@@ -770,7 +770,7 @@ input:focus, textarea:focus, select:focus {
 .paper-card textarea { position: relative; z-index: 1; width: 100%; border: 0; outline: 0; resize: none; overflow: hidden; background: transparent; color: #211b16; text-align: center; font-family: var(--font-family); font-size: clamp(1.35rem, 3vw, 2rem); font-weight: 800; line-height: 1.32; letter-spacing: -.035em; text-transform: uppercase; caret-color: #e6511a; user-select: text; }
 .paper-card textarea::placeholder { color: #28221c; opacity: 1; }
 .paper-card-footer { position: absolute; bottom: 14px; z-index: 1; color: #786d5e; font-size: .67rem; letter-spacing: .045em; font-weight: 650; }
-.paper-boxes { position: absolute; bottom: 18px; left: 0; right: 0; display: flex; align-items: flex-end; justify-content: center; gap: clamp(18px, 4vw, 55px); padding: 0 20px; }
+.paper-boxes { position: absolute; bottom: 62px; left: 0; right: 0; display: flex; align-items: flex-end; justify-content: center; gap: clamp(18px, 4vw, 55px); padding: 0 20px; }
 /* Ember cube priority boxes — the SVG owns the isometric geometry; the lid
    lifts while a paper hovers or drops, and filed sheets show through the glass. */
 .paper-stack:has(.paper-card-grabbed, .paper-card-dropping) { z-index: 3; }
@@ -791,6 +791,14 @@ input:focus, textarea:focus, select:focus {
 @keyframes cubeFlash { 0% { opacity: 0; } 25% { opacity: .85; } 100% { opacity: 0; } }
 .paper-box-hint { position: absolute; top: -30px; left: 50%; transform: translate(-50%, 6px); padding: 4px 10px; border: 1px solid color-mix(in srgb, var(--cube-edge), transparent 55%); border-radius: 999px; background: rgba(22,6,3,.82); color: var(--cube-label); font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .2s ease, transform .2s ease; }
 .paper-box-active .paper-box-hint { opacity: 1; transform: translate(-50%, 0); }
+/* Priority tag beneath each cube — same glass-pill language as the counter and priority chips */
+.paper-box-tag { position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 5px 5px 5px 7px; border: 1px solid var(--border-color); border-radius: var(--radius-full); background: var(--bg-card); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); white-space: nowrap; pointer-events: none; transition: border-color var(--transition), box-shadow var(--transition); }
+.paper-box-tag-icon { display: grid; place-items: center; width: 20px; height: 20px; border-radius: var(--radius-full); background: var(--primary-subtle); color: var(--primary); }
+.paper-box-tag-label { color: var(--text-secondary); font-size: .72rem; font-weight: 700; letter-spacing: .02em; transition: color var(--transition); }
+.paper-box-tag-count { min-width: 22px; padding: 2px 7px; border-radius: var(--radius-full); background: var(--bg-subtle); border: 1px solid var(--border-subtle); color: var(--text-main); font-size: .68rem; font-weight: 750; font-variant-numeric: tabular-nums; text-align: center; animation: tagCountPop .32s cubic-bezier(.22,1,.36,1); }
+@keyframes tagCountPop { from { transform: scale(.7); opacity: .3; } to { transform: none; opacity: 1; } }
+.paper-box-active .paper-box-tag, .paper-box-opened .paper-box-tag { border-color: var(--border-hover); box-shadow: var(--shadow-sm), var(--primary-glow-soft); }
+.paper-box-active .paper-box-tag-label, .paper-box-opened .paper-box-tag-label { color: var(--text-main); }
 .paper-card-entering { animation: paperCardEnter .4s cubic-bezier(.22,1,.36,1) both; }
 @keyframes paperCardEnter { from { transform: translate(-3px, 12px) rotate(-1.3deg) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
 .paper-stack-refresh .paper-card-back { animation: paperFan .52s cubic-bezier(.22,1,.36,1) both; }
@@ -802,8 +810,8 @@ input:focus, textarea:focus, select:focus {
 .paper-priority-actions button:hover, .paper-priority-actions button:focus-visible { color: var(--text-main); border-color: var(--primary); background: var(--primary-subtle); outline: none; }
 .paper-dashboard-button { display: block; margin: 10px auto 0; border: 1px solid var(--primary); border-radius: 999px; background: var(--primary); color: var(--primary-text); padding: 9px 16px; cursor: pointer; box-shadow: var(--primary-glow-soft); font: inherit; font-size: .8rem; font-weight: 750; transition: transform .18s ease, background .18s ease; }
 .paper-dashboard-button:hover, .paper-dashboard-button:focus-visible { transform: translateY(-2px); background: var(--primary-hover); outline: 2px solid var(--primary); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .paper-card-active, .paper-box, .paper-card-dropping, .paper-card-back, .cube-lid, .cube-sheet-new, .cube-flash { transition-duration: .01ms !important; animation: none !important; } .paper-card-active:hover { transform: none; } }
-@media (max-width: 640px) { .paper-stage { min-height: 540px; } .paper-stack { width: min(370px, 86vw); top: 44px; } .paper-card-active { padding-inline: 38px; } .paper-boxes { bottom: 38px; gap: 7px; padding-inline: 6px; } .paper-box { width: 30vw; } .paper-box-hint { top: -24px; font-size: .5rem; padding: 3px 7px; } .paper-toast { right: 12px; top: 7px; } }
+@media (prefers-reduced-motion: reduce) { .paper-card-active, .paper-box, .paper-card-dropping, .paper-card-back, .cube-lid, .cube-sheet-new, .cube-flash, .paper-box-tag-count { transition-duration: .01ms !important; animation: none !important; } .paper-card-active:hover { transform: none; } }
+@media (max-width: 640px) { .paper-stage { min-height: 580px; } .paper-stack { width: min(370px, 86vw); top: 44px; } .paper-card-active { padding-inline: 38px; } .paper-boxes { bottom: 64px; gap: 7px; padding-inline: 6px; } .paper-box { width: 30vw; } .paper-box-tag { top: calc(100% + 10px); gap: 5px; padding: 3px 3px 3px 4px; } .paper-box-tag-icon { width: 16px; height: 16px; } .paper-box-tag-label { font-size: .6rem; } .paper-box-tag-count { min-width: 18px; padding: 1px 5px; font-size: .6rem; } .paper-box-hint { top: -24px; font-size: .5rem; padding: 3px 7px; } .paper-toast { right: 12px; top: 7px; } }
 
 /* Streamlined Flow — scroll-driven sticky 3-step timeline */
 .flow-scroller { position: relative; }
