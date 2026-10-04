@@ -6,13 +6,18 @@ import { usePrefersReducedMotion } from '@/lib/usePrefersReducedMotion';
 import { stageTask } from '@/lib/stagedTasks';
 
 type PriorityKey = 'high' | 'medium' | 'low';
-const PRIORITIES: { key: PriorityKey; label: string; color: string }[] = [
-  { key: 'high', label: 'High priority', color: '#ef4444' },
-  { key: 'medium', label: 'Mid priority', color: '#f59e0b' },
-  { key: 'low', label: 'Low priority', color: '#22c55e' },
+const PRIORITIES: { key: PriorityKey; label: string }[] = [
+  { key: 'high', label: 'High priority' },
+  { key: 'medium', label: 'Mid priority' },
+  { key: 'low', label: 'Low priority' },
 ];
 const STACK_CARDS = [{ x: -12, y: 28, rotate: -5 }, { x: 13, y: 23, rotate: 4 }, { x: -7, y: 17, rotate: -2.5 }, { x: 8, y: 11, rotate: 3 }, { x: -3, y: 5, rotate: -1.3 }];
 const DROP_DURATION = 620;
+// Isometric cube in a 240×260 viewBox: top vertex, the two upper corners, the
+// front vertical edge (centre → bottom) and the two lower corners.
+const CUBE = { top: '120,12', lt: '20,70', rt: '220,70', c: '120,128', lb: '20,186', rb: '220,186', bottom: '120,244' };
+const CUBE_MOUTH_Y = 70 / 260;
+const MAX_VISIBLE_SHEETS = 6;
 
 interface HeroPrioritySceneProps {
   onOpenAuth: (mode?: 'login' | 'signup') => void;
@@ -44,14 +49,19 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
     if (!card || !box || dropping || !title.trim()) return;
     stageTask(title.trim(), priority);
     setDropping(true); setActiveBox(null); setOpenedBox(priority);
+    // Aim for the cube's lid opening (top face centre) and shrink the paper into it.
     const cardRect = card.getBoundingClientRect(); const boxRect = box.getBoundingClientRect();
     const dx = boxRect.left + boxRect.width / 2 - (cardRect.left + cardRect.width / 2);
-    const dy = boxRect.top + boxRect.height * 0.45 - (cardRect.top + cardRect.height / 2);
-    card.classList.add('paper-card-dropping'); card.style.transform = `translate3d(${dx}px, ${dy}px, 0) rotate(${priority === 'high' ? -8 : 7}deg) scale(.74)`; card.style.opacity = '0'; box.classList.add('paper-box-bounce');
+    const dy = boxRect.top + boxRect.height * CUBE_MOUTH_Y - (cardRect.top + cardRect.height / 2);
+    card.classList.add('paper-card-dropping'); card.style.transform = `translate3d(${dx}px, ${dy}px, 0) rotate(${priority === 'high' ? -14 : 12}deg) scale(.14)`; card.style.opacity = '0';
     window.setTimeout(() => {
       setCounts((previous) => ({ ...previous, [priority]: previous[priority] + 1 })); setOrganized((previous) => previous + 1); setTitle(''); setStackCycle((previous) => previous + 1); setDropping(false); setToast('Task prioritized ✓');
-      card.classList.remove('paper-card-dropping'); card.style.removeProperty('transform'); card.style.removeProperty('opacity'); box.classList.remove('paper-box-bounce');
-      window.setTimeout(() => setOpenedBox(null), reducedMotion ? 0 : 520);
+      // Snap the paper back to the stack without a visible return trip, then deal a fresh sheet.
+      card.classList.remove('paper-card-dropping'); card.style.transition = 'none'; card.style.removeProperty('transform'); card.style.removeProperty('opacity');
+      void card.offsetWidth; card.style.removeProperty('transition');
+      if (!reducedMotion) { card.classList.add('paper-card-entering'); window.setTimeout(() => card.classList.remove('paper-card-entering'), 420); }
+      box.classList.add('paper-box-bounce'); window.setTimeout(() => box.classList.remove('paper-box-bounce'), 620);
+      window.setTimeout(() => setOpenedBox(null), reducedMotion ? 0 : 160);
       window.setTimeout(() => inputRef.current?.focus(), reducedMotion ? 0 : 120);
     }, reducedMotion ? 100 : DROP_DURATION);
   };
@@ -82,87 +92,68 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
         </div>
       </div>
       <div className="paper-boxes" aria-label="Priority drop zones">
-        {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`} style={{ '--box-color': 'var(--primary)' } as React.CSSProperties}>
-          <svg className="paper-box-illustration" viewBox="0 0 300 230" aria-hidden="true">
+        {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} aria-label={`${priority.label}: ${counts[priority.key]} task${counts[priority.key] === 1 ? '' : 's'}`} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`}>
+          <svg className="paper-box-illustration" viewBox="0 0 240 260" aria-hidden="true">
             <defs>
-              <linearGradient id={`front-${priority.key}`} x1="0" y1="0" x2=".35" y2="1">
-                <stop offset="0%" stopColor="var(--box-front-1)" />
-                <stop offset="55%" stopColor="var(--box-front-2)" />
-                <stop offset="100%" stopColor="var(--box-front-3)" />
-              </linearGradient>
-              <linearGradient id={`side-${priority.key}`} x1="0" y1="0" x2=".3" y2="1">
-                <stop offset="0%" stopColor="var(--box-side-1)" />
-                <stop offset="55%" stopColor="var(--box-side-2)" />
-                <stop offset="100%" stopColor="var(--box-side-3)" />
-              </linearGradient>
-              <linearGradient id={`top-${priority.key}`} x1="0" y1="1" x2="1" y2="0">
-                <stop offset="0%" stopColor="var(--box-top-3)" />
-                <stop offset="50%" stopColor="var(--box-top-2)" />
-                <stop offset="100%" stopColor="var(--box-top-1)" />
-              </linearGradient>
-              <linearGradient id={`flap-${priority.key}`} x1="0" y1="0" x2=".8" y2="1">
-                <stop offset="0%" stopColor="var(--box-top-1)" />
-                <stop offset="60%" stopColor="var(--box-top-2)" />
-                <stop offset="100%" stopColor="var(--box-top-3)" />
-              </linearGradient>
-              {/* Edge highlight catching the overhead light, and a soft AO line where faces meet */}
-              <linearGradient id={`rim-${priority.key}`} x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-                <stop offset="50%" stopColor="#ffffff" stopOpacity=".55" />
-                <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-              </linearGradient>
-              {/* Soft two-layer contact shadow: a neon-orange ground bounce plus a broad neutral falloff */}
-              <radialGradient id={`shadow-warm-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="var(--box-color)" stopOpacity=".45" />
-                <stop offset="100%" stopColor="var(--box-color)" stopOpacity="0" />
+              <radialGradient id={`cube-top-${priority.key}`} gradientUnits="userSpaceOnUse" cx="120" cy="74" r="104">
+                <stop offset="0%" stopColor="var(--cube-top-core)" />
+                <stop offset="55%" stopColor="var(--cube-top-mid)" />
+                <stop offset="100%" stopColor="var(--cube-top-edge)" />
               </radialGradient>
-              <radialGradient id={`shadow-soft-${priority.key}`} cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#000000" stopOpacity=".2" />
-                <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+              <radialGradient id={`cube-left-${priority.key}`} gradientUnits="userSpaceOnUse" cx="88" cy="150" r="118">
+                <stop offset="0%" stopColor="var(--cube-left-core)" />
+                <stop offset="55%" stopColor="var(--cube-left-mid)" />
+                <stop offset="100%" stopColor="var(--cube-left-edge)" />
               </radialGradient>
-              <clipPath id={`front-clip-${priority.key}`}>
-                <polygon points="50,100 195,100 195,230 50,230" />
-              </clipPath>
+              <radialGradient id={`cube-right-${priority.key}`} gradientUnits="userSpaceOnUse" cx="128" cy="146" r="132">
+                <stop offset="0%" stopColor="var(--cube-right-hot)" />
+                <stop offset="42%" stopColor="var(--cube-right-mid)" />
+                <stop offset="100%" stopColor="var(--cube-right-edge)" />
+              </radialGradient>
+              <radialGradient id={`cube-mouth-${priority.key}`} gradientUnits="userSpaceOnUse" cx="120" cy="70" r="90">
+                <stop offset="0%" stopColor="var(--cube-glow)" stopOpacity=".9" />
+                <stop offset="100%" stopColor="var(--cube-interior)" />
+              </radialGradient>
+              <radialGradient id={`cube-flash-${priority.key}`} gradientUnits="userSpaceOnUse" cx="120" cy="80" r="110">
+                <stop offset="0%" stopColor="#fff3d6" stopOpacity=".95" />
+                <stop offset="100%" stopColor="var(--cube-glow)" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id={`cube-shadow-${priority.key}`} cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="var(--cube-glow)" stopOpacity=".38" />
+                <stop offset="100%" stopColor="var(--cube-glow)" stopOpacity="0" />
+              </radialGradient>
+              {/* Fine film grain, clipped to whatever shape it's applied to */}
+              <filter id={`cube-grain-${priority.key}`} x="0" y="0" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch" result="noise" />
+                <feColorMatrix in="noise" type="saturate" values="0" result="mono" />
+                <feComposite in="mono" in2="SourceGraphic" operator="in" />
+              </filter>
             </defs>
-            <g className="paper-box-closed">
-              <ellipse cx="150" cy="238" rx="82" ry="9" fill={`url(#shadow-warm-${priority.key})`} />
-              <ellipse cx="150" cy="238" rx="128" ry="14" fill={`url(#shadow-soft-${priority.key})`} />
-              <polygon points="50,100 195,100 250,65 105,65" fill={`url(#top-${priority.key})`} />
-              <polygon points="195,100 250,65 250,195 195,230" fill={`url(#side-${priority.key})`} />
-              <polygon points="50,100 195,100 195,230 50,230" fill={`url(#front-${priority.key})`} />
-              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(30,18,9,.28)" strokeWidth="1.25" />
-              {/* Highlight catching the overhead light along the lid's outer edge */}
-              <path d="M250 65 L105 65 L50 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
+            <ellipse cx="120" cy="250" rx="104" ry="10" fill={`url(#cube-shadow-${priority.key})`} />
+            {/* Glass interior: dark core so filed sheets read through the faces on any page theme */}
+            <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill="var(--cube-interior)" />
+            {Array.from({ length: Math.min(counts[priority.key], MAX_VISIBLE_SHEETS) }, (_, index) => (
+              <polygon key={`${priority.key}-sheet-${index}`} className={index === counts[priority.key] - 1 ? 'cube-sheet-new' : undefined} points="120,152 180,186 120,220 60,186" transform={`translate(${index % 2 ? 3 : -2} ${-index * 6})`} fill="var(--cube-paper)" stroke="rgba(60,30,10,.25)" strokeWidth=".8" />
+            ))}
+            <polygon points={`${CUBE.lt} ${CUBE.c} ${CUBE.bottom} ${CUBE.lb}`} fill={`url(#cube-left-${priority.key})`} opacity=".86" />
+            <polygon points={`${CUBE.c} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom}`} fill={`url(#cube-right-${priority.key})`} opacity=".86" />
+            <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill="#fff" opacity=".14" filter={`url(#cube-grain-${priority.key})`} style={{ mixBlendMode: 'overlay' }} />
+            {/* Priority copy laid flat on the right face (isometric skew) */}
+            <g transform="matrix(.866 -.5 0 1 120 128)" fill="var(--cube-label)" fontFamily="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" fontWeight="700">
+              <text x="12" y="88" fontSize="11" letterSpacing=".6">{priority.label.toUpperCase()}</text>
+              <text x="12" y="104" fontSize="11" letterSpacing=".6" opacity=".82">{counts[priority.key]} TASK{counts[priority.key] === 1 ? '' : 'S'}</text>
             </g>
-            <g className="paper-box-open">
-              <ellipse cx="150" cy="230" rx="80" ry="9" fill={`url(#shadow-warm-${priority.key})`} />
-              <ellipse cx="150" cy="230" rx="124" ry="14" fill={`url(#shadow-soft-${priority.key})`} />
-              <polygon points="50,100 195,100 250,65 105,65" fill="var(--box-interior)" />
-              <polygon points="105,65 250,65 250,10 105,10" fill={`url(#flap-${priority.key})`} />
-              <polygon points="195,100 250,65 320,20 265,55" fill={`url(#flap-${priority.key})`} />
-              <polygon points="105,65 50,100 -20,55 35,20" fill={`url(#flap-${priority.key})`} />
-              <polygon points="50,100 195,100 210,155 35,155" fill={`url(#flap-${priority.key})`} opacity=".94" />
-              <polygon points="195,100 250,65 250,195 195,230" fill={`url(#side-${priority.key})`} />
-              <polygon points="50,100 195,100 195,230 50,230" fill={`url(#front-${priority.key})`} />
-              <path d="M50 100 L195 100 L250 65 M195 100 L195 230" fill="none" stroke="rgba(30,18,9,.28)" strokeWidth="1.25" />
-              <path d="M50 100 L195 100" fill="none" stroke={`url(#rim-${priority.key})`} strokeWidth="2" strokeLinecap="round" />
-              {/* Hand-hold die-cut */}
-              <ellipse cx="184" cy="207" rx="7" ry="10" fill="rgba(20,10,5,.4)" />
+            <path d={`M${CUBE.lt} L${CUBE.lb} L${CUBE.bottom} L${CUBE.rb} L${CUBE.rt} M${CUBE.c} L${CUBE.bottom}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".75" strokeWidth="1" strokeLinejoin="round" />
+            {/* Lid opening revealed when the top face lifts */}
+            <polygon className="cube-opening" points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-mouth-${priority.key})`} stroke="var(--cube-edge)" strokeOpacity=".5" strokeWidth="1" />
+            <g className="cube-lid">
+              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-top-${priority.key})`} opacity=".92" />
+              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill="#fff" opacity=".14" filter={`url(#cube-grain-${priority.key})`} style={{ mixBlendMode: 'overlay' }} />
+              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".85" strokeWidth="1" strokeLinejoin="round" />
             </g>
-            {/* Priority copy set flush on the front face, no label chip */}
-            <g clipPath={`url(#front-clip-${priority.key})`}>
-              <text x="62" y="120" fill="rgba(245,244,242,.48)" fontSize="7" fontWeight="700" letterSpacing="2">
-                — PRIORITY
-              </text>
-              <text x="61" y="151" fill="var(--box-label-text)" fontSize="19" fontWeight="800">
-                {priority.label.split(' ')[0].toUpperCase()}
-              </text>
-              <text x="62" y="213" fill={priority.color} fontSize="12" fontWeight="800">
-                {counts[priority.key]} task{counts[priority.key] === 1 ? '' : 's'}
-              </text>
-            </g>
+            <polygon className="cube-flash" points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill={`url(#cube-flash-${priority.key})`} />
           </svg>
-          <div className="paper-box-opening"><span>{activeBox === priority.key ? 'Drop here' : 'Drag to sort'}</span></div>
+          <span className="paper-box-hint">Drop here</span>
         </div>)}
       </div>
     </div>
