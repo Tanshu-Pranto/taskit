@@ -51,22 +51,19 @@
   --priority-high: #fbbf24;
   --priority-urgent: #ff3b30;
 
-  /* Ember cube priority boxes (hero) — a self-lit translucent cube, so the
-     same material is used in light and dark mode. */
-  --cube-top-core: #ef6a3c;
-  --cube-top-mid: #b9543a;
-  --cube-top-edge: #5f3430;
-  --cube-left-core: #f2481c;
-  --cube-left-mid: #b81d0d;
-  --cube-left-edge: #360606;
-  --cube-right-hot: #f59a24;
-  --cube-right-mid: #cf2f18;
-  --cube-right-edge: #2a0404;
-  --cube-edge: #f7b53b;
-  --cube-interior: #160403;
-  --cube-glow: #ff7a2e;
-  --cube-label: #fff4ea;
-  --cube-paper: #f5f0e5;
+  /* Amber resin cube priority boxes (hero) — one key light from the upper
+     left; the material is self-contained so it reads the same in both themes. */
+  --cube-top-1: #d27a4c;
+  --cube-top-2: #a8532d;
+  --cube-left-1: #a8441c;
+  --cube-left-2: #561a0b;
+  --cube-right-1: #7a2c12;
+  --cube-right-2: #2c0c05;
+  --cube-depth: #f0a06a;
+  --cube-edge: #ffd9bf;
+  --cube-interior: #120604;
+  --cube-label: #fbeee4;
+  --cube-paper: #e9dfcf;
 
   /* Shadows & Radius */
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
@@ -123,22 +120,19 @@
   --accent-gradient: linear-gradient(135deg, #eb5a22 0%, #b23a0f 100%);
   --growth-gradient: linear-gradient(135deg, #ff8a3d 0%, #ffe3d1 100%);
 
-  /* Ember cube priority boxes (hero) — a self-lit translucent cube, so the
-     same material is used in light and dark mode. */
-  --cube-top-core: #ef6a3c;
-  --cube-top-mid: #b9543a;
-  --cube-top-edge: #5f3430;
-  --cube-left-core: #f2481c;
-  --cube-left-mid: #b81d0d;
-  --cube-left-edge: #360606;
-  --cube-right-hot: #f59a24;
-  --cube-right-mid: #cf2f18;
-  --cube-right-edge: #2a0404;
-  --cube-edge: #f7b53b;
-  --cube-interior: #160403;
-  --cube-glow: #ff7a2e;
-  --cube-label: #fff4ea;
-  --cube-paper: #f5f0e5;
+  /* Amber resin cube priority boxes (hero) — one key light from the upper
+     left; the material is self-contained so it reads the same in both themes. */
+  --cube-top-1: #d27a4c;
+  --cube-top-2: #a8532d;
+  --cube-left-1: #a8441c;
+  --cube-left-2: #561a0b;
+  --cube-right-1: #7a2c12;
+  --cube-right-2: #2c0c05;
+  --cube-depth: #f0a06a;
+  --cube-edge: #ffd9bf;
+  --cube-interior: #120604;
+  --cube-label: #fbeee4;
+  --cube-paper: #e9dfcf;
 
   --shadow-sm: 0 2px 6px rgba(20, 14, 10, 0.04);
   --shadow-md: 0 8px 20px rgba(20, 14, 10, 0.06);
@@ -775,21 +769,21 @@ input:focus, textarea:focus, select:focus {
    lifts while a paper hovers or drops, and filed sheets show through the glass. */
 .paper-stack:has(.paper-card-grabbed, .paper-card-dropping) { z-index: 3; }
 .paper-boxes { z-index: 2; }
-.paper-box { position: relative; width: min(230px, 26vw); aspect-ratio: 240 / 260; filter: drop-shadow(0 22px 18px rgba(0,0,0,.38)) drop-shadow(0 0 22px color-mix(in srgb, var(--cube-glow), transparent 78%)); transition: transform .28s cubic-bezier(.22,1,.36,1), filter .28s ease; }
+.paper-box { position: relative; width: min(230px, 26vw); aspect-ratio: 240 / 260; filter: drop-shadow(0 18px 14px rgba(0,0,0,.34)); transition: transform .28s cubic-bezier(.22,1,.36,1), filter .28s ease; }
 .paper-box-illustration { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .cube-lid { transition: transform .32s cubic-bezier(.22,1,.36,1); }
 .cube-opening { opacity: 0; transition: opacity .2s ease; }
 .paper-box-active .cube-lid, .paper-box-opened .cube-lid { transform: translateY(-20px); }
 .paper-box-active .cube-opening, .paper-box-opened .cube-opening { opacity: 1; }
-.paper-box-active { transform: translateY(-8px) scale(1.03); filter: drop-shadow(0 28px 20px rgba(0,0,0,.44)) drop-shadow(0 0 30px color-mix(in srgb, var(--cube-glow), transparent 55%)); }
+.paper-box-active { transform: translateY(-8px) scale(1.03); filter: drop-shadow(0 26px 18px rgba(0,0,0,.42)) brightness(1.06); }
 .cube-sheet-new { animation: cubeSheetIn .42s cubic-bezier(.22,1,.36,1) both; }
 @keyframes cubeSheetIn { from { transform: translateY(-96px); opacity: 0; } 40% { opacity: 1; } to { transform: none; opacity: 1; } }
 .cube-flash { opacity: 0; pointer-events: none; }
 .paper-box-bounce { animation: paperBoxBounce .52s cubic-bezier(.34,1.56,.64,1); }
 .paper-box-bounce .cube-flash { animation: cubeFlash .6s ease-out; }
 @keyframes paperBoxBounce { 0%,100% { transform: none; } 40% { transform: translateY(-10px) scale(1.04); } }
-@keyframes cubeFlash { 0% { opacity: 0; } 25% { opacity: .85; } 100% { opacity: 0; } }
-.paper-box-hint { position: absolute; top: -30px; left: 50%; transform: translate(-50%, 6px); padding: 4px 10px; border: 1px solid color-mix(in srgb, var(--cube-edge), transparent 55%); border-radius: 999px; background: rgba(22,6,3,.82); color: var(--cube-label); font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .2s ease, transform .2s ease; }
+@keyframes cubeFlash { 0% { opacity: 0; } 25% { opacity: .14; } 100% { opacity: 0; } }
+.paper-box-hint { position: absolute; top: -30px; left: 50%; transform: translate(-50%, 6px); padding: 4px 10px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: rgba(18,12,10,.86); color: var(--cube-label); font-size: .62rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .2s ease, transform .2s ease; }
 .paper-box-active .paper-box-hint { opacity: 1; transform: translate(-50%, 0); }
 .paper-card-entering { animation: paperCardEnter .4s cubic-bezier(.22,1,.36,1) both; }
 @keyframes paperCardEnter { from { transform: translate(-3px, 12px) rotate(-1.3deg) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
