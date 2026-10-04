@@ -95,67 +95,63 @@ export const HeroPriorityScene: React.FC<HeroPrioritySceneProps> = ({ onOpenAuth
         {PRIORITIES.map((priority) => <div key={priority.key} ref={setBoxRef(priority.key)} aria-label={`${priority.label}: ${counts[priority.key]} task${counts[priority.key] === 1 ? '' : 's'}`} className={`paper-box ${activeBox === priority.key ? 'paper-box-active' : ''} ${openedBox === priority.key ? 'paper-box-opened' : ''}`}>
           <svg className="paper-box-illustration" viewBox="0 0 240 260" aria-hidden="true">
             <defs>
-              {/* Key light from the upper left: top face brightest, left face mid, right face in shade */}
-              <linearGradient id={`cube-top-${priority.key}`} gradientUnits="userSpaceOnUse" x1="20" y1="70" x2="220" y2="70">
-                <stop offset="0%" stopColor="var(--cube-top-1)" />
-                <stop offset="100%" stopColor="var(--cube-top-2)" />
-              </linearGradient>
-              <linearGradient id={`cube-left-${priority.key}`} gradientUnits="userSpaceOnUse" x1="70" y1="90" x2="70" y2="240">
-                <stop offset="0%" stopColor="var(--cube-left-1)" />
-                <stop offset="100%" stopColor="var(--cube-left-2)" />
-              </linearGradient>
-              <linearGradient id={`cube-right-${priority.key}`} gradientUnits="userSpaceOnUse" x1="130" y1="90" x2="220" y2="230">
-                <stop offset="0%" stopColor="var(--cube-right-1)" />
-                <stop offset="100%" stopColor="var(--cube-right-2)" />
-              </linearGradient>
-              {/* Faint subsurface warmth so the body reads as resin, not paint */}
-              <radialGradient id={`cube-depth-${priority.key}`} gradientUnits="userSpaceOnUse" cx="112" cy="150" r="96">
-                <stop offset="0%" stopColor="var(--cube-depth)" stopOpacity=".28" />
-                <stop offset="100%" stopColor="var(--cube-depth)" stopOpacity="0" />
+              <radialGradient id={`cube-top-${priority.key}`} gradientUnits="userSpaceOnUse" cx="120" cy="74" r="104">
+                <stop offset="0%" stopColor="var(--cube-top-core)" />
+                <stop offset="55%" stopColor="var(--cube-top-mid)" />
+                <stop offset="100%" stopColor="var(--cube-top-edge)" />
               </radialGradient>
-              <linearGradient id={`cube-sheen-${priority.key}`} gradientUnits="userSpaceOnUse" x1="40" y1="40" x2="140" y2="110">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity=".2" />
-                <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
-              </linearGradient>
-              <linearGradient id={`cube-mouth-${priority.key}`} gradientUnits="userSpaceOnUse" x1="120" y1="12" x2="120" y2="128">
-                <stop offset="0%" stopColor="var(--cube-interior)" />
-                <stop offset="100%" stopColor="var(--cube-left-2)" />
-              </linearGradient>
+              <radialGradient id={`cube-left-${priority.key}`} gradientUnits="userSpaceOnUse" cx="88" cy="150" r="118">
+                <stop offset="0%" stopColor="var(--cube-left-core)" />
+                <stop offset="55%" stopColor="var(--cube-left-mid)" />
+                <stop offset="100%" stopColor="var(--cube-left-edge)" />
+              </radialGradient>
+              <radialGradient id={`cube-right-${priority.key}`} gradientUnits="userSpaceOnUse" cx="128" cy="146" r="132">
+                <stop offset="0%" stopColor="var(--cube-right-hot)" />
+                <stop offset="42%" stopColor="var(--cube-right-mid)" />
+                <stop offset="100%" stopColor="var(--cube-right-edge)" />
+              </radialGradient>
+              <radialGradient id={`cube-mouth-${priority.key}`} gradientUnits="userSpaceOnUse" cx="120" cy="70" r="90">
+                <stop offset="0%" stopColor="var(--cube-glow)" stopOpacity=".9" />
+                <stop offset="100%" stopColor="var(--cube-interior)" />
+              </radialGradient>
+              <radialGradient id={`cube-flash-${priority.key}`} gradientUnits="userSpaceOnUse" cx="120" cy="80" r="110">
+                <stop offset="0%" stopColor="#fff3d6" stopOpacity=".95" />
+                <stop offset="100%" stopColor="var(--cube-glow)" stopOpacity="0" />
+              </radialGradient>
               <radialGradient id={`cube-shadow-${priority.key}`} cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#000000" stopOpacity=".55" />
                 <stop offset="100%" stopColor="#000000" stopOpacity="0" />
               </radialGradient>
+              {/* Fine film grain, clipped to whatever shape it's applied to */}
               <filter id={`cube-grain-${priority.key}`} x="0" y="0" width="100%" height="100%">
                 <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch" result="noise" />
                 <feColorMatrix in="noise" type="saturate" values="0" result="mono" />
                 <feComposite in="mono" in2="SourceGraphic" operator="in" />
               </filter>
             </defs>
-            <ellipse cx="120" cy="247" rx="96" ry="9" fill={`url(#cube-shadow-${priority.key})`} />
+            <ellipse cx="120" cy="247" rx="96" ry="9"fill={`url(#cube-shadow-${priority.key})`} />
+            {/* Glass interior: dark core so filed sheets read through the faces on any page theme */}
             <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill="var(--cube-interior)" />
             {Array.from({ length: Math.min(counts[priority.key], MAX_VISIBLE_SHEETS) }, (_, index) => (
-              <polygon key={`${priority.key}-sheet-${index}`} className={index === counts[priority.key] - 1 ? 'cube-sheet-new' : undefined} points="120,152 180,186 120,220 60,186" transform={`translate(${index % 2 ? 3 : -2} ${-index * 6})`} fill="var(--cube-paper)" stroke="rgba(40,20,8,.3)" strokeWidth=".8" />
+              <polygon key={`${priority.key}-sheet-${index}`} className={index === counts[priority.key] - 1 ? 'cube-sheet-new' : undefined} points="120,152 180,186 120,220 60,186" transform={`translate(${index % 2 ? 3 : -2} ${-index * 6})`} fill="var(--cube-paper)" stroke="rgba(60,30,10,.25)" strokeWidth=".8" />
             ))}
-            <polygon points={`${CUBE.lt} ${CUBE.c} ${CUBE.bottom} ${CUBE.lb}`} fill={`url(#cube-left-${priority.key})`} opacity=".9" />
-            <polygon points={`${CUBE.c} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom}`} fill={`url(#cube-right-${priority.key})`} opacity=".92" />
-            <polygon points={`${CUBE.lt} ${CUBE.c} ${CUBE.bottom} ${CUBE.lb}`} fill={`url(#cube-depth-${priority.key})`} />
-            <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill="#fff" opacity=".06" filter={`url(#cube-grain-${priority.key})`} style={{ mixBlendMode: 'overlay' }} />
-            <g transform="matrix(.866 -.5 0 1 120 128)" fill="var(--cube-label)" fontFamily="var(--font-family)">
-              <text x="13" y="88" fontSize="10" fontWeight="700" letterSpacing="1.6">{priority.label.toUpperCase()}</text>
-              <text x="13" y="103" fontSize="9.5" fontWeight="500" letterSpacing="1.2" opacity=".62">{counts[priority.key]} TASK{counts[priority.key] === 1 ? '' : 'S'}</text>
+            <polygon points={`${CUBE.lt} ${CUBE.c} ${CUBE.bottom} ${CUBE.lb}`} fill={`url(#cube-left-${priority.key})`} opacity=".86" />
+            <polygon points={`${CUBE.c} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom}`} fill={`url(#cube-right-${priority.key})`} opacity=".86" />
+            <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill="#fff" opacity=".14" filter={`url(#cube-grain-${priority.key})`} style={{ mixBlendMode: 'overlay' }} />
+            {/* Priority copy laid flat on the right face (isometric skew) */}
+            <g transform="matrix(.866 -.5 0 1 120 128)" fill="var(--cube-label)" fontFamily="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" fontWeight="700">
+              <text x="12" y="88" fontSize="11" letterSpacing=".6">{priority.label.toUpperCase()}</text>
+              <text x="12" y="104" fontSize="11" letterSpacing=".6" opacity=".82">{counts[priority.key]} TASK{counts[priority.key] === 1 ? '' : 'S'}</text>
             </g>
-            {/* Edges: a soft lit bevel on the front corner, everything else barely there */}
-            <path d={`M${CUBE.lt} L${CUBE.lb} L${CUBE.bottom} L${CUBE.rb} L${CUBE.rt}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".16" strokeWidth="1" strokeLinejoin="round" />
-            <path d={`M${CUBE.c} L${CUBE.bottom}`} stroke="var(--cube-edge)" strokeOpacity=".4" strokeWidth="1" />
-            <polygon className="cube-opening" points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-mouth-${priority.key})`} />
+            <path d={`M${CUBE.lt} L${CUBE.lb} L${CUBE.bottom} L${CUBE.rb} L${CUBE.rt} M${CUBE.c} L${CUBE.bottom}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".75" strokeWidth="1" strokeLinejoin="round" />
+            {/* Lid opening revealed when the top face lifts */}
+            <polygon className="cube-opening" points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-mouth-${priority.key})`} stroke="var(--cube-edge)" strokeOpacity=".5" strokeWidth="1" />
             <g className="cube-lid">
-              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-top-${priority.key})`} />
-              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-sheen-${priority.key})`} />
-              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill="#fff" opacity=".06" filter={`url(#cube-grain-${priority.key})`} style={{ mixBlendMode: 'overlay' }} />
-              <path d={`M${CUBE.lt} L${CUBE.top} L${CUBE.rt}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".22" strokeWidth="1" strokeLinejoin="round" />
-              <path d={`M${CUBE.lt} L${CUBE.c} L${CUBE.rt}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".5" strokeWidth="1" strokeLinejoin="round" />
+              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill={`url(#cube-top-${priority.key})`} opacity=".92" />
+              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill="#fff" opacity=".14" filter={`url(#cube-grain-${priority.key})`} style={{ mixBlendMode: 'overlay' }} />
+              <polygon points={`${CUBE.top} ${CUBE.rt} ${CUBE.c} ${CUBE.lt}`} fill="none" stroke="var(--cube-edge)" strokeOpacity=".85" strokeWidth="1" strokeLinejoin="round" />
             </g>
-            <polygon className="cube-flash" points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill="#ffffff" />
+            <polygon className="cube-flash" points={`${CUBE.top} ${CUBE.rt} ${CUBE.rb} ${CUBE.bottom} ${CUBE.lb} ${CUBE.lt}`} fill={`url(#cube-flash-${priority.key})`} />
           </svg>
           <span className="paper-box-hint">Drop here</span>
         </div>)}
