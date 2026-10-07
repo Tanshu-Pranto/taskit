@@ -123,6 +123,10 @@ export const InfiniteCardCarousel: React.FC<InfiniteCardCarouselProps> = ({ item
       <div
         style={{
           overflow: 'hidden',
+          // Room for the cards' drop shadow and hover lift, which the
+          // overflow clip would otherwise cut off.
+          padding: '12px 0 48px',
+          margin: '-12px 0 -48px',
           cursor: 'grab',
           touchAction: 'pan-y',
         }}
