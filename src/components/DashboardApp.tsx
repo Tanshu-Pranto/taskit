@@ -418,6 +418,7 @@ export function DashboardApp() {
               onSelectTask={(task) => setDetailTask(task)}
               onToggleComplete={handleToggleComplete}
               onViewAllTasks={() => setActiveTab('tasks')}
+              onOpenCalendar={() => setActiveTab('calendar')}
               onAddTaskOnDate={(dateStr) => openNewTaskModal('todo', dateStr)}
               onFilterByCategory={(catName) => {
                 setSelectedCategory(catName);
