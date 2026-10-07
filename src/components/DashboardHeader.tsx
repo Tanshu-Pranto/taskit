@@ -40,10 +40,14 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         gap: '16px',
-        padding: '24px 32px 16px 32px',
+        padding: '18px 32px',
         borderBottom: '1px solid var(--border-color)',
-        background: 'var(--bg-app)',
-        position: 'relative',
+        background: 'rgba(var(--bg-app-rgb), 0.82)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 40,
       }}
     >
       {/* Greeting and Mobile Menu */}
@@ -98,24 +102,49 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           <input
             id="global-search-input"
             type="text"
-            placeholder="Search tasks (⌘K)..."
+            placeholder="Search tasks"
+            aria-label="Search tasks"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             style={{
               width: '100%',
               paddingLeft: '36px',
-              paddingRight: '12px',
+              paddingRight: '48px',
               height: '38px',
+              borderRadius: 'var(--radius-full)',
             }}
           />
+          {!searchQuery && (
+            <kbd
+              className="hide-mobile"
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                padding: '1px 7px',
+                border: '1px solid var(--border-color)',
+                borderRadius: 'var(--radius-xs)',
+                background: 'var(--bg-subtle)',
+                fontFamily: 'inherit',
+                fontSize: '0.7rem',
+                fontWeight: 600,
+                color: 'var(--text-muted)',
+                pointerEvents: 'none',
+              }}
+            >
+              ⌘K
+            </kbd>
+          )}
         </div>
 
         {/* Notifications */}
         <div style={{ position: 'relative' }}>
           <button
             className="btn btn-ghost"
-            style={{ padding: '8px', borderRadius: 'var(--radius-sm)' }}
-            title="Notifications"
+            style={{ padding: '8px', borderRadius: 'var(--radius-full)' }}
+            title="Reminders"
+            aria-label={notifications.length > 0 ? `Reminders (${notifications.length})` : 'Reminders'}
             onClick={() => setNotificationsOpen((open) => !open)}
           >
             <Bell size={18} />
@@ -184,7 +213,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                         }}
                       >
                         {n.kind === 'due-today' ? (
-                          <AlertTriangle size={15} color="#ef4444" style={{ marginTop: '1px', flexShrink: 0 }} />
+                          <AlertTriangle size={15} color="var(--priority-urgent)" style={{ marginTop: '1px', flexShrink: 0 }} />
                         ) : (
                           <Clock3 size={15} color="var(--primary)" style={{ marginTop: '1px', flexShrink: 0 }} />
                         )}
@@ -193,7 +222,7 @@ export const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                             {n.taskTitle}
                           </div>
                           <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                            {n.kind === 'due-today' ? 'Due today' : 'Due tomorrow — 1 day left'}
+                            {n.kind === 'due-today' ? 'Due today' : 'Due tomorrow'}
                           </div>
                         </div>
                       </div>

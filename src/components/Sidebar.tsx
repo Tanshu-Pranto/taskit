@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           padding: collapsed ? '10px 0' : '10px 16px',
           marginBottom: '20px',
           display: 'flex',
-          justifyContent: collapsed ? 'center' : 'center',
+          justifyContent: 'center',
         }}
         onClick={onNewTaskClick}
       >
@@ -174,8 +174,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     fontWeight: 600,
                     padding: '1px 6px',
                     borderRadius: 'var(--radius-full)',
-                    background: isActive ? 'var(--primary)' : 'var(--bg-subtle)',
-                    color: isActive ? '#fff' : 'var(--text-muted)',
+                    background: 'var(--bg-subtle)',
+                    color: isActive ? 'var(--text-main)' : 'var(--text-muted)',
+                    fontVariantNumeric: 'tabular-nums',
                   }}
                 >
                   {item.badge}
@@ -206,17 +207,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
               {categories.map((cat) => (
-                <div
+                <button
                   key={cat.id}
+                  className="btn btn-ghost"
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
+                    justifyContent: 'flex-start',
                     gap: '10px',
+                    width: '100%',
                     padding: '7px 12px',
                     fontSize: '0.85rem',
-                    color: 'var(--text-secondary)',
+                    fontWeight: 500,
                     borderRadius: 'var(--radius-sm)',
-                    cursor: 'pointer',
                   }}
                   onClick={() => {
                     onTabChange('tasks');
@@ -233,7 +234,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }}
                   />
                   <span>{cat.name}</span>
-                </div>
+                </button>
               ))}
             </div>
           </div>

@@ -395,7 +395,7 @@ export function DashboardApp() {
       />
 
       {/* Main App Canvas */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowX: 'hidden' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowX: 'clip' }}>
         {/* Header */}
         <DashboardHeader
           userName={user.name}
@@ -416,6 +416,7 @@ export function DashboardApp() {
               categories={categories}
               todayDate={TODAY_DATE}
               onSelectTask={(task) => setDetailTask(task)}
+              onToggleComplete={handleToggleComplete}
               onViewAllTasks={() => setActiveTab('tasks')}
               onAddTaskOnDate={(dateStr) => openNewTaskModal('todo', dateStr)}
               onFilterByCategory={(catName) => {
